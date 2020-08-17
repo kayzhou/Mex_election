@@ -6,7 +6,7 @@
 #    By: Zhenkun <zhenkun91@outlook.com>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/01/21 09:47:55 by Kay Zhou          #+#    #+#              #
-#    Updated: 2020/08/17 17:24:43 by Zhenkun          ###   ########.fr        #
+#    Updated: 2020/08/17 17:25:31 by Zhenkun          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -166,7 +166,7 @@ if __name__ == "__main__":
         set_id = set()  # remove dups
         months = ["202008"]
         for month in months:
-            for in_name in Path("raw_data" / month).rglob("*.txt"):
+            for in_name in Path("raw_data/" + month).rglob("*.txt"):
                 print(in_name)
                 for line in open(in_name):
                     try:
