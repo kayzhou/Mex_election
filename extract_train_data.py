@@ -6,7 +6,7 @@
 #    By: Zhenkun <zhenkun91@outlook.com>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/01/21 09:47:55 by Kay Zhou          #+#    #+#              #
-#    Updated: 2020/08/17 17:20:40 by Zhenkun          ###   ########.fr        #
+#    Updated: 2020/08/17 17:22:20 by Zhenkun          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -158,22 +158,12 @@ def read_classified_hashtags():
 
 
 if __name__ == "__main__":
-    classified_hts, category_hts = read_classified_hashtags()
-    # JB_hts = classified_hts["JB"]
-    # DT_hts = classified_hts["DT"]
-    # JB_hts_c = category_hts["JB"]
-    # DT_hts_c = category_hts["DT"]
-    # print(len(JB_hts), len(JB_hts_c), len(DT_hts), len(DT_hts_c))
+    classified_hts = read_classified_hashtags()
     AMLO_hts = classified_hts["AMLO"]
     anti_AMLO_hts = classified_hts["anti-AMLO"]
 
-    with open(train_dir + "train.txt", "w") as f: # 2020-03-06
-        # for dt_dir in Path("raw_data").iterdir():
+    with open(train_dir + "train.txt", "w") as f:
         set_id = set()  # remove dups
-        #     for in_name in dt_dir.iterdir():
-        #         if in_name.stem.split("-")[-1] in election_files and in_name.parts[1] in months:
-        #             print(in_name)
-
         months = ["202008"]
         for month in months:
             print(month)
