@@ -6,7 +6,7 @@
 #    By: Zhenkun <zhenkun91@outlook.com>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/07/06 14:11:24 by Kay Zhou          #+#    #+#              #
-#    Updated: 2020/08/17 17:59:40 by Zhenkun          ###   ########.fr        #
+#    Updated: 2020/08/17 19:46:00 by Zhenkun          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -40,24 +40,9 @@ class Classifer(object):
         "init Classifer!"
         self.train_dir = train_dir
 
-        # 2020-03-06
-        # label2num = {
-        #    "BS": 0,
-        #    "JB": 1,
-        #    "OT": 2,
-        #}
-
-        # 2020-03-25
-        # self.label2num = {
-        #     "BS": 0,
-        #     "JB": 1,
-        #     "DT": 2,
-        # }
-
-        # 一定要区分好，0和1分别代表了什么，该模型是判断是否支持trump
         self.label2num = {
-            "JB": 0,
-            "DT": 1,
+            "anti-AMLO": 0,
+            "AMLO": 1,
         }
         self.hts, _ = read_classified_hashtags(self.train_dir, self.label2num)
         
@@ -170,10 +155,6 @@ class Classifer(object):
     
 
 if __name__ == "__main__":
-    #dt = "2020-03-06-tfidf"
-    #dt ="2020-03-08-tfidf_model3"
-    #dt = "model 4_omg"
-
     _dir = "train-08"
     Lebron = Classifer(train_dir=_dir)
     # After extract_train_data.py

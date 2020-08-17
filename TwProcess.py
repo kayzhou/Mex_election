@@ -6,7 +6,7 @@
 #    By: Zhenkun <zhenkun91@outlook.com>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/05/23 21:42:53 by Kay Zhou          #+#    #+#              #
-#    Updated: 2020/07/17 07:43:59 by Zhenkun          ###   ########.fr        #
+#    Updated: 2020/08/17 19:45:15 by Zhenkun          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -17,6 +17,7 @@ import unicodedata
 from itertools import chain
 from string import punctuation
 
+from extract_train_data import normalize_lower
 import numpy as np
 from nltk import BigramAssocMeasures, ngrams, precision, recall
 from nltk.corpus import stopwords
@@ -101,7 +102,7 @@ def normalize_hashtags(text, ignores):
     """
     
     def _replace(matched):
-        if matched.group(0).lower() in ignores:
+        if normalize_lower(matched.group(0)) in ignores:
             return "#HT"
         else:
             return matched.group(0)
@@ -161,7 +162,7 @@ class CustomTweetTokenizer(TweetTokenizer):
         elif word.isupper():
             return word
         else:
-            return word.lower()
+            return normalize_lower(word)
     
     
     def tokenize(self, text):
