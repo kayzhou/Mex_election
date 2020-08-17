@@ -6,7 +6,7 @@
 #    By: Zhenkun <zhenkun91@outlook.com>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/07/06 14:11:24 by Kay Zhou          #+#    #+#              #
-#    Updated: 2020/08/17 20:15:57 by Zhenkun          ###   ########.fr        #
+#    Updated: 2020/08/17 20:16:15 by Zhenkun          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -126,8 +126,7 @@ class Classifer(object):
                 clf = sklearn.linear_model.LogisticRegression(penalty='l2', solver="sag", max_iter=10e8, multi_class="auto")
                 clf.fit(X_train, y_train)
             elif classifier == "GBDT":
-                clf = GradientBoostingClassifier(
-                    learning_rate=0.1, max_depth=3)
+                clf = GradientBoostingClassifier(learning_rate=0.1, max_depth=3)
                 clf.fit(X_train, y_train)
             else:
                 clf = classifiers[classifier](X_train, y_train)
