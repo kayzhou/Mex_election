@@ -6,7 +6,7 @@
 #    By: Zhenkun <zhenkun91@outlook.com>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/01/21 09:47:55 by Kay Zhou          #+#    #+#              #
-#    Updated: 2020/08/17 16:50:59 by Zhenkun          ###   ########.fr        #
+#    Updated: 2020/08/17 17:00:14 by Zhenkun          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -96,7 +96,7 @@ def write_top_hashtags_mex(out_name):
 
 def write_top_words_mex(out_name):
     all_hts = Counter()
-    file_names = sorted(Path("/media/wangjiannan/Mexico_election_raw_tweets/202008").rglob("*.txt"), reverse=True)
+    file_names = sorted(Path("raw_data/202008").rglob("*.txt"), reverse=True)
 
     for in_name in file_names:
         print(in_name)
@@ -136,17 +136,15 @@ def write_top_trump_biden_hashtags(out_name):
             f.write(f"{ht},{cnt}\n")
 
 
-def write_cooccurrence_hashtags(in_files, out_name):
-    file_names = sorted(Path("raw_data").rglob("*.txt"), reverse=True)
+def write_cooccurrence_hashtags(out_name):
+    file_names = sorted(Path("raw_data/202008").rglob("*.txt"), reverse=True)
     with open(out_name, "w") as f:
         for in_name in file_names:
-            name = in_name.stem.split("-")[-1].lower()
-            if "trump" in name or "biden" in name:
-                if in_name.parts[1] in months:
-                    for line in tqdm(open(in_name)):
-                        hts = json.loads(line)["hashtags"]
-                        if hts and len(hts) >= 1:
-                            f.write(" ".join([ht["text"].lower() for ht in hts]) + "\n")
+            print(in_name)
+            for line in open(in_name):
+                hts = json.loads(line)["hashtags"]
+                if hts and len(hts) >= 1:
+                    f.write(" ".join([ht["text"].lower() for ht in hts]) + "\n")
                     
 
 def get_hts(in_name):
@@ -174,7 +172,7 @@ def label_based_on_before(in_name, out_name):
 if __name__ == "__main__":
     # write_top_hashtags(demo_files, "hashtags-democrats-20200305.txt")
     # write_top_trump_biden_hashtags("data/hashtags-democrats-20200305.txt")
-    write_top_hashtags_mex("hashtags-MEX-20200811.txt")
+    # write_top_hashtags_mex("hashtags-MEX-20200811.txt")
     # write_top_words_mex("data/words-MEX-20200811.txt")
 
 
@@ -183,3 +181,4 @@ if __name__ == "__main__":
     # label_based_on_before("data/hashtags-trump-20200121.txt", "data/hashtags-trump-20200121-v2.txt")
 
     # write_cooccurrence_hashtags(trump_files, "hashtags-co-20200301-20200625.txt")
+    write_cooccurrence_hashtags("hashtags-co-20200801-20200817.txt")
