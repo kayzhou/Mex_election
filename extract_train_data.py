@@ -6,7 +6,7 @@
 #    By: Zhenkun <zhenkun91@outlook.com>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/01/21 09:47:55 by Kay Zhou          #+#    #+#              #
-#    Updated: 2020/08/17 17:17:20 by Zhenkun          ###   ########.fr        #
+#    Updated: 2020/08/17 17:20:40 by Zhenkun          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -20,7 +20,7 @@ def normalize_lower(text):
     return unicodedata.normalize('NFKD', text).encode('ASCII', 'ignore').decode().lower()
 
     
-train_dir = "data/train-08/"
+train_dir = "disk/train-08/"
 
 election_files = set([
     "Biden"
