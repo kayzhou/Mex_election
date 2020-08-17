@@ -6,7 +6,7 @@
 #    By: Zhenkun <zhenkun91@outlook.com>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/05/14 11:08:14 by Kay Zhou          #+#    #+#              #
-#    Updated: 2020/08/17 21:16:35 by Zhenkun          ###   ########.fr        #
+#    Updated: 2020/08/17 21:19:08 by Zhenkun          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -37,12 +37,12 @@ from gensim.test.utils import datapath
 from gensim.utils import simple_preprocess
 from my_weapon import *
 
-matplotlib.rcParams["font.size"] = 14
-sns.set_style("darkgrid")
-ira_c = sns.color_palette("coolwarm", 8)[7]
-all_c = sns.color_palette("coolwarm", 8)[0]
+# matplotlib.rcParams["font.size"] = 14
+# sns.set_style("darkgrid")
+# ira_c = sns.color_palette("coolwarm", 8)[7]
+# all_c = sns.color_palette("coolwarm", 8)[0]
 
-nlp = spacy.load('es', disable=['parser', 'ner'])
+# nlp = spacy.load('es', disable=['parser', 'ner'])
 
 tokenizer = CustomTweetTokenizer(preserve_case=False,
                                  reduce_len=True,
@@ -105,34 +105,6 @@ class KTopic(object):
         # Term Document Frequency
         self.corpus = [self.id2word.doc2bow(text) for text in texts_out]
 
-
-    def load_model(self):
-        self.lda_model = LdaModel.load("model/lda-ira-78.mod")
-
-
-    def lemmatization(self, sent, allowed_postags=['NOUN', 'ADJ', 'VERB', 'ADV', 'PROPN']):
-        """https://spacy.io/api/annotation"""
-        sent = " ".join(sent)
-        sent = re.sub(r'#(\w+)', r'itstopiczzz\1', sent)
-        sent = re.sub(r'@(\w+)', r'itsmentionzzz\1', sent)
-        doc = nlp(sent)
-        
-        _d = [token.lemma_ for token in doc if token.pos_ in allowed_postags and token.lemma_ not in stop_words and token.lemma_]
-        
-        _d = [x.replace('itstopiczzz', '#') for x in _d]
-        _d = [x.replace('itsmentionzzz', '@') for x in _d]
-        return _d
-    
-
-    def predict(self, text):
-        text = text.replace("\n", " ").replace("\t", " ")
-        words = tokenizer.tokenize(text)
-        words = [w for w in words if w not in stop_words and w]
-        text = self.lemmatization(words)
-        text = self.id2word.doc2bow(text)
-        return self.lda_model.get_document_topics(text)
-
-
     def run(self):
         for i in range(100):
             print(f"---------------------- {i} ----------------------")
@@ -147,7 +119,31 @@ class KTopic(object):
             coherence_lda = coherence_model_lda.get_coherence()
             print('Coherence Score: ', coherence_lda)
             
-            lda_model.save(f"disk/model/lda-{i}.mod")
+            lda_model.save(f"disk/model/LDA-{i}.mod")
+
+    def load_model(self):
+        self.lda_model = LdaModel.load("model/LDA-78.mod")
+
+    # def lemmatization(self, sent, allowed_postags=['NOUN', 'ADJ', 'VERB', 'ADV', 'PROPN']):
+    #     """https://spacy.io/api/annotation"""
+    #     sent = " ".join(sent)
+    #     sent = re.sub(r'#(\w+)', r'itstopiczzz\1', sent)
+    #     sent = re.sub(r'@(\w+)', r'itsmentionzzz\1', sent)
+    #     doc = nlp(sent)
+        
+    #     _d = [token.lemma_ for token in doc if token.pos_ in allowed_postags and token.lemma_ not in stop_words and token.lemma_]
+        
+    #     _d = [x.replace('itstopiczzz', '#') for x in _d]
+    #     _d = [x.replace('itsmentionzzz', '@') for x in _d]
+    #     return _d
+
+    def predict(self, text):
+        text = text.replace("\n", " ").replace("\t", " ")
+        words = tokenizer.tokenize(text)
+        words = [w for w in words if w not in stop_words and w]
+        # text = self.lemmatization(words)
+        text = self.id2word.doc2bow(text)
+        return self.lda_model.get_document_topics(text)
 
 
 if __name__ == "__main__":
