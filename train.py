@@ -6,7 +6,7 @@
 #    By: Zhenkun <zhenkun91@outlook.com>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/07/06 14:11:24 by Kay Zhou          #+#    #+#              #
-#    Updated: 2020/08/17 20:12:56 by Zhenkun          ###   ########.fr        #
+#    Updated: 2020/08/17 20:15:57 by Zhenkun          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -96,8 +96,8 @@ class Classifer(object):
 
         # X_train, y_train = SMOTE().fit_sample(X_train, y_train)
         # X_train, y_train = ADASYN().fit_sample(X_train, y_train)
-        # X_train, y_train = RandomOverSampler(random_state=24).fit_sample(X_train, y_train)
-        X_train, y_train = RandomUnderSampler(random_state=42).fit_sample(X_train, y_train)
+        X_train, y_train = RandomOverSampler(random_state=42).fit_sample(X_train, y_train)
+        # X_train, y_train = RandomUnderSampler(random_state=42).fit_sample(X_train, y_train)
 
         print("After sampling!")
         print(X_train.shape, X_test.shape)
@@ -123,7 +123,7 @@ class Classifer(object):
             print('******************* {} ********************'.format(classifier))
             if classifier == "LR":
                 # clf = LogisticRegression(penalty='l2', multi_class="multinomial", solver="sag", max_iter=10e8)
-                clf = LogisticRegression(penalty='l2', solver="sag", max_iter=10e8, multi_class="auto")
+                clf = sklearn.linear_model.LogisticRegression(penalty='l2', solver="sag", max_iter=10e8, multi_class="auto")
                 clf.fit(X_train, y_train)
             elif classifier == "GBDT":
                 clf = GradientBoostingClassifier(
