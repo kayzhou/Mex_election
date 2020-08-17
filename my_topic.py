@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    my_topic.py                                        :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: Kay Zhou <zhenkun91@outlook.com>           +#+  +:+       +#+         #
+#    By: Zhenkun <zhenkun91@outlook.com>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/05/14 11:08:14 by Kay Zhou          #+#    #+#              #
-#    Updated: 2020/03/24 19:02:48 by Kay Zhou         ###   ########.fr        #
+#    Updated: 2020/08/17 19:46:42 by Zhenkun          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -33,11 +33,8 @@ from gensim.test.utils import datapath
 from gensim.utils import simple_preprocess
 from nltk.corpus import stopwords
 from tqdm import tqdm
-from tqdm import tqdm_notebook as tqdm
 
-from fake_identify import Are_you_IRA
 from my_weapon import *
-from Trump_Clinton_Classifer.TwProcess import CustomTweetTokenizer
 
 matplotlib.rcParams["font.size"] = 14
 sns.set_style("darkgrid")
@@ -71,7 +68,7 @@ stop_words.extend([',', '.', ':', ';', '?', '(', ')', '[', ']', '&', '!', '*', '
 
 class KTopic(object):
     def __init__(self):
-        print("你若相信，它便存在。")
+        print("LDA init.")
 
 
     def load_text(self):
