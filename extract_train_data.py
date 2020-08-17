@@ -6,7 +6,7 @@
 #    By: Zhenkun <zhenkun91@outlook.com>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/01/21 09:47:55 by Kay Zhou          #+#    #+#              #
-#    Updated: 2020/08/17 17:22:20 by Zhenkun          ###   ########.fr        #
+#    Updated: 2020/08/17 17:24:43 by Zhenkun          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -166,43 +166,44 @@ if __name__ == "__main__":
         set_id = set()  # remove dups
         months = ["202008"]
         for month in months:
-            print(month)
-            for line in tqdm(open(f"raw_data/{month}.lj")):
-                try:
-                    data = json.loads(line.strip())
-                except Exception:
-                    print('json.loads Error:', line)
-                    continue
+            for in_name in Path("raw_data" / month).rglob("*.txt"):
+                print(in_name)
+                for line in open(in_name):
+                    try:
+                        data = json.loads(line.strip())
+                    except Exception:
+                        print('json.loads Error:', line)
+                        continue
 
-                label_bingo_times = 0
-                label = None
-                
-                # ignoring retweets
-                if 'retweeted_status' in data and data["text"].startswith("RT @"): 
-                    continue
-                set_hts = set([normalize_lower(ht["text"]) for ht in data["hashtags"]])
-                if not set_hts:
-                    continue
+                    label_bingo_times = 0
+                    label = None
                     
-                if data["id"] in set_id:
-                    continue
-                set_id.add(data["id"])
+                    # ignoring retweets
+                    if 'retweeted_status' in data and data["text"].startswith("RT @"): 
+                        continue
+                    set_hts = set([normalize_lower(ht["text"]) for ht in data["hashtags"]])
+                    if not set_hts:
+                        continue
+                        
+                    if data["id"] in set_id:
+                        continue
+                    set_id.add(data["id"])
 
-                for _ht in set_hts:
-                    if _ht in AMLO_hts:
-                        label_bingo_times += 1
-                        label = "AMLO"
-                        break
-                for _ht in set_hts:
-                    if _ht in anti_AMLO_hts:
-                        label_bingo_times += 1
-                        label = "anti-AMLO"
-                        break
+                    for _ht in set_hts:
+                        if _ht in AMLO_hts:
+                            label_bingo_times += 1
+                            label = "AMLO"
+                            break
+                    for _ht in set_hts:
+                        if _ht in anti_AMLO_hts:
+                            label_bingo_times += 1
+                            label = "anti-AMLO"
+                            break
 
-                if not (label and label_bingo_times == 1):
-                    continue
-                    
-                # one tweet (in traindata) should have 0 or 1 class hashtag
-                if label and label_bingo_times == 1:
-                    text = data["text"].replace("\n", " ").replace("\t", " ")
-                    f.write(label + "\t" + text + "\n")
+                    if not (label and label_bingo_times == 1):
+                        continue
+                        
+                    # one tweet (in traindata) should have 0 or 1 class hashtag
+                    if label and label_bingo_times == 1:
+                        text = data["text"].replace("\n", " ").replace("\t", " ")
+                        f.write(label + "\t" + text + "\n")
