@@ -6,7 +6,7 @@
 #    By: Zhenkun <zhenkun91@outlook.com>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/06/07 20:40:05 by Kay Zhou          #+#    #+#              #
-#    Updated: 2020/08/17 17:13:01 by Zhenkun          ###   ########.fr        #
+#    Updated: 2020/08/17 17:18:59 by Zhenkun          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -409,9 +409,8 @@ if __name__ == "__main__":
     hashtags = get_camp_hashtags_mex()
     with open("disk/train-08/hashtags.txt", "w") as f:
         for ht in hashtags:
-            ht[0] = normalize_lower(ht[0])
-            if ht[0] in set_hts:
+            ht_name = normalize_lower(ht[0])
+            if ht_name in set_hts:
                 continue
-            set_hts.add(ht[0])
-            f.write(f"{ht[0]} {ht[2]}\n")
-    
+            set_hts.add(ht_name)
+            f.write(f"{ht_name} {ht[2]}\n")
