@@ -6,7 +6,7 @@
 #    By: Zhenkun <zhenkun91@outlook.com>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/05/14 11:08:14 by Kay Zhou          #+#    #+#              #
-#    Updated: 2020/08/17 21:19:23 by Zhenkun          ###   ########.fr        #
+#    Updated: 2020/08/17 21:20:17 by Zhenkun          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -35,7 +35,9 @@ from gensim.corpora import Dictionary
 from gensim.models import CoherenceModel, LdaModel
 from gensim.test.utils import datapath
 from gensim.utils import simple_preprocess
+
 from my_weapon import *
+from TwProcess import *
 
 # matplotlib.rcParams["font.size"] = 14
 # sns.set_style("darkgrid")
