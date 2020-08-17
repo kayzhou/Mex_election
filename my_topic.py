@@ -6,7 +6,7 @@
 #    By: Zhenkun <zhenkun91@outlook.com>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/05/14 11:08:14 by Kay Zhou          #+#    #+#              #
-#    Updated: 2020/08/17 19:46:42 by Zhenkun          ###   ########.fr        #
+#    Updated: 2020/08/17 21:16:35 by Zhenkun          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -15,25 +15,26 @@ import pprint
 import re
 import string
 from collections import Counter
+from pathlib import Path
 from pprint import pprint
+
+import matplotlib
+import scipy
+# spacy for lemmatization
+import spacy
+from nltk.corpus import stopwords
+from tqdm import tqdm
 
 # Gensim
 import gensim
 import gensim.corpora as corpora
-import matplotlib
-import numpy as np
-import pandas as pd
-import scipy
-
-# spacy for lemmatization
-import spacy
+# from nltk.corpus import stopwords
+# stop_words = stopwords.words('english')
+from extract_train_data import normalize_lower
 from gensim.corpora import Dictionary
 from gensim.models import CoherenceModel, LdaModel
 from gensim.test.utils import datapath
 from gensim.utils import simple_preprocess
-from nltk.corpus import stopwords
-from tqdm import tqdm
-
 from my_weapon import *
 
 matplotlib.rcParams["font.size"] = 14
@@ -41,9 +42,7 @@ sns.set_style("darkgrid")
 ira_c = sns.color_palette("coolwarm", 8)[7]
 all_c = sns.color_palette("coolwarm", 8)[0]
 
-Putin = Are_you_IRA()
-
-nlp = spacy.load('en', disable=['parser', 'ner'])
+nlp = spacy.load('es', disable=['parser', 'ner'])
 
 tokenizer = CustomTweetTokenizer(preserve_case=False,
                                  reduce_len=True,
@@ -52,8 +51,8 @@ tokenizer = CustomTweetTokenizer(preserve_case=False,
                                  normalize_urls=True,
                                  keep_allupper=False)
 
-from nltk.corpus import stopwords
-stop_words = stopwords.words('english')
+stop_words = json.load(open("data/spanish-stop-words.json"))["words"]
+stop_words = [normalize_lower(w) for w in stop_words]
 stop_words.extend([
     "rt", "…", "...", "URL", "http", "https", "“", "”", "‘", "’", "get", "2", "new", "one", "i'm", "make",
     "go", "good", "say", "says", "know", "day", "..", "take", "got", "1", "going", "4", "3", "two", "n",
@@ -62,8 +61,7 @@ stop_words.extend([
     "5", "time", "much", "_", "cound", "-", '"'
 ])
 
-stop_words.extend([',', '.', ':', ';', '?', '(', ')', '[', ']', '&', '!', '*', '@', '#', '$', '%',
-])
+stop_words.extend([',', '.', ':', ';', '?', '(', ')', '[', ']', '&', '!', '*', '@', '#', '$', '%'])
 
 
 class KTopic(object):
@@ -74,12 +72,29 @@ class KTopic(object):
     def load_text(self):
         print("Loading ...")
         texts_out = []
+        out_file = open("data/LDA_corpus.txt", "w")
 
-        with open("data/ira_texts.txt") as f:
-            for line in f:
-                w = [w for w in line.strip().split() if w != "" and w != "%"]
-                if w:
-                    texts_out.append(w)
+        set_id = set()  # remove dups
+        months = ["202008"]
+        for month in months:
+            for in_name in Path("raw_data/" + month).rglob("*.txt"):
+                print(in_name)
+                for line in open(in_name):
+                    try:
+                        data = json.loads(line.strip())
+                    except Exception:
+                        print('json.loads Error:', line)
+                        continue
+                        
+                    if data["id"] in set_id:
+                        continue
+                    set_id.add(data["id"])
+                    
+                    text = data["text"].replace("\n", " ").replace("\t", " ")
+                    words = tokenizer.tokenize(text)
+                    if words:
+                        texts_out.append(words)
+                        out_file.write(" ".join(words) + "\n")
 
         # Create Dictionary
         self.id2word = corpora.Dictionary(texts_out)
@@ -132,7 +147,7 @@ class KTopic(object):
             coherence_lda = coherence_model_lda.get_coherence()
             print('Coherence Score: ', coherence_lda)
             
-            lda_model.save(f"model/lda-ira-{i}.mod")
+            lda_model.save(f"disk/model/lda-{i}.mod")
 
 
 if __name__ == "__main__":
