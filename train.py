@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    train.py                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: Kay Zhou <zhenkun91@outlook.com>           +#+  +:+       +#+         #
+#    By: Zhenkun <zhenkun91@outlook.com>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/07/06 14:11:24 by Kay Zhou          #+#    #+#              #
-#    Updated: 2020/03/29 20:51:04 by Kay Zhou         ###   ########.fr        #
+#    Updated: 2020/08/17 17:59:40 by Zhenkun          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -30,8 +30,8 @@ from sklearn.feature_selection import SelectFromModel
 from sklearn.model_selection import train_test_split
 
 from my_weapon import *
-from myclf import *
-from SQLite_handler import *
+# from myclf import *
+# from SQLite_handler import *
 from TwProcess import *
 
 
@@ -174,7 +174,7 @@ if __name__ == "__main__":
     #dt ="2020-03-08-tfidf_model3"
     #dt = "model 4_omg"
 
-    _dir = "train-07"
+    _dir = "train-08"
     Lebron = Classifer(train_dir=_dir)
     # After extract_train_data.py
     Lebron.save_tokens()

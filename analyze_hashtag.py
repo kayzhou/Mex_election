@@ -6,7 +6,7 @@
 #    By: Zhenkun <zhenkun91@outlook.com>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/01/21 09:47:55 by Kay Zhou          #+#    #+#              #
-#    Updated: 2020/08/17 17:00:14 by Zhenkun          ###   ########.fr        #
+#    Updated: 2020/08/17 18:06:05 by Zhenkun          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -137,14 +137,14 @@ def write_top_trump_biden_hashtags(out_name):
 
 
 def write_cooccurrence_hashtags(out_name):
-    file_names = sorted(Path("raw_data/202008").rglob("*.txt"), reverse=True)
+    from extract_train_data import normalize_lower
     with open(out_name, "w") as f:
-        for in_name in file_names:
+        for in_name in Path("raw_data/202008").rglob("*.txt"):
             print(in_name)
             for line in open(in_name):
                 hts = json.loads(line)["hashtags"]
                 if hts and len(hts) >= 1:
-                    f.write(" ".join([ht["text"].lower() for ht in hts]) + "\n")
+                    f.write(" ".join([normalize_lower(ht["text"]) for ht in hts]) + "\n")
                     
 
 def get_hts(in_name):
@@ -181,4 +181,4 @@ if __name__ == "__main__":
     # label_based_on_before("data/hashtags-trump-20200121.txt", "data/hashtags-trump-20200121-v2.txt")
 
     # write_cooccurrence_hashtags(trump_files, "hashtags-co-20200301-20200625.txt")
-    write_cooccurrence_hashtags("hashtags-co-20200801-20200817.txt")
+    write_cooccurrence_hashtags("data/hashtags-co-20200801-20200817.txt")
