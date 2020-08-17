@@ -4,18 +4,13 @@
 
 import joblib
 from nltk import ngrams
-from sklearn.ensemble import GradientBoostingClassifier, RandomForestClassifier
+import sklearn
+
 from sklearn.feature_extraction import DictVectorizer
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.feature_selection import SelectFromModel
 # from sklearn.grid_search import GridSearchCV
-from sklearn.linear_model import LogisticRegression
-from sklearn.metrics import classification_report
 from sklearn.model_selection import cross_val_score, train_test_split
-from sklearn.naive_bayes import BernoulliNB, MultinomialNB
-from sklearn.neighbors import KNeighborsClassifier
-from sklearn.svm import SVC, LinearSVC
-from sklearn.tree import DecisionTreeClassifier
 
 from imblearn.over_sampling import ADASYN, SMOTE, RandomOverSampler
 from imblearn.under_sampling import RandomUnderSampler
@@ -23,56 +18,56 @@ from imblearn.under_sampling import RandomUnderSampler
 
 # Multinomial Naive Bayes Classifier
 def naive_bayes_classifier(train_x, train_y):
-    model = MultinomialNB(alpha=0.01)
+    model = sklearn.naive_bayes.MultinomialNB(alpha=0.01)
     model.fit(train_x, train_y)
     return model
 
 
 # KNN Classifier
 def knn_classifier(train_x, train_y):
-    model = KNeighborsClassifier()
+    model = sklearn.neighbors.KNeighborsClassifier()
     model.fit(train_x, train_y)
     return model
 
 
 # Logistic Regression Classifier
 def logistic_regression_classifier(train_x, train_y):
-    model = LogisticRegression(penalty='l2')
-    model.fit(train_x, train_y)
-    return model
-
-
-# Random Forest Classifier
-def random_forest_classifier(train_x, train_y):
-    model = RandomForestClassifier(n_estimators=8)
+    model = sklearn.linear_model.LogisticRegression(penalty='l2')
     model.fit(train_x, train_y)
     return model
 
 
 # Decision Tree Classifier
 def decision_tree_classifier(train_x, train_y):
-    model = DecisionTreeClassifier()
+    model = sklearn.tree.DecisionTreeClassifier()
+    model.fit(train_x, train_y)
+    return model
+
+
+# Random Forest Classifier
+def random_forest_classifier(train_x, train_y):
+    model = sklearn.ensemble.RandomForestClassifier(n_estimators=8)
     model.fit(train_x, train_y)
     return model
 
 
 # GBDT(Gradient Boosting Decision Tree) Classifier
 def gradient_boosting_classifier(train_x, train_y):
-    model = GradientBoostingClassifier(n_estimators=200)
+    model = sklearn.ensemble.GradientBoostingClassifier(n_estimators=200)
     model.fit(train_x, train_y)
     return model
 
 
 # SVM Classifier
 def svm_classifier(train_x, train_y):
-    model = SVC(kernel='rbf', probability=True)
+    model = sklearn.svm.SVC(kernel='rbf', probability=True)
     model.fit(train_x, train_y)
     return model
 
 
 # SVM Linear Classifier
 def svm_linear_classifier(train_x, train_y):
-    model = LinearSVC()
+    model = sklearn.svm.LinearSVC()
     model.fit(train_x, train_y)
     return model
 

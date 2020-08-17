@@ -6,7 +6,7 @@
 #    By: Zhenkun <zhenkun91@outlook.com>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/07/06 14:11:24 by Kay Zhou          #+#    #+#              #
-#    Updated: 2020/08/17 19:57:15 by Zhenkun          ###   ########.fr        #
+#    Updated: 2020/08/17 20:12:56 by Zhenkun          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -21,10 +21,8 @@ from random import sample
 import joblib
 import pendulum
 
-
 from my_weapon import *
 from myclf import *
-# from SQLite_handler import *
 from TwProcess import *
 
 
@@ -140,11 +138,9 @@ class Classifer(object):
 
     def evaluate(self, clf, X_train, y_train, X_test, y_test):
         # CV
-        print('accuracy of CV=10:', cross_val_score(
-            clf, X_train, y_train, cv=10).mean())
-
+        print('accuracy of CV=10:', cross_val_score(clf, X_train, y_train, cv=10).mean())
         y_pred = clf.predict(X_test)
-        print(classification_report(y_test, y_pred))
+        print(sklearn.metrics.classification_report(y_test, y_pred))
     
 
 if __name__ == "__main__":
