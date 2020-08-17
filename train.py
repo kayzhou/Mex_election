@@ -6,7 +6,7 @@
 #    By: Zhenkun <zhenkun91@outlook.com>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/07/06 14:11:24 by Kay Zhou          #+#    #+#              #
-#    Updated: 2020/08/17 19:46:00 by Zhenkun          ###   ########.fr        #
+#    Updated: 2020/08/17 19:57:15 by Zhenkun          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -20,17 +20,10 @@ from random import sample
 
 import joblib
 import pendulum
-from imblearn.over_sampling import RandomOverSampler
-from imblearn.under_sampling import RandomUnderSampler
-from imblearn.over_sampling import SMOTE, ADASYN
-from nltk import ngrams
-from sklearn.feature_extraction import DictVectorizer
-from sklearn.feature_extraction.text import TfidfVectorizer
-from sklearn.feature_selection import SelectFromModel
-from sklearn.model_selection import train_test_split
+
 
 from my_weapon import *
-# from myclf import *
+from myclf import *
 # from SQLite_handler import *
 from TwProcess import *
 
@@ -51,9 +44,9 @@ class Classifer(object):
         text > tokens
         """
         tokenizer = CustomTweetTokenizer(hashtags=self.hts)
-        with open(f"data/{self.train_dir}/tokens.txt", "w") as f:
-            print("save tokens from:", f"data/{self.train_dir}/train.txt")
-            for line in tqdm(open(f"data/{self.train_dir}/train.txt", encoding="utf8")):
+        with open(f"disk/{self.train_dir}/tokens.txt", "w") as f:
+            print("save tokens from:", f"disk/{self.train_dir}/train.txt")
+            for line in tqdm(open(f"disk/{self.train_dir}/train.txt", encoding="utf8")):
                 try:
                     camp, text = line.strip().split("\t")
                     camp = self.label2num[camp]
@@ -65,7 +58,7 @@ class Classifer(object):
 
     def load_tokens(self):
         X = []; y = []
-        for line in tqdm(open(f"data/{self.train_dir}/tokens.txt")):
+        for line in tqdm(open(f"disk/{self.train_dir}/tokens.txt")):
             camp, line = line.strip().split("\t")
             # words = line.split()
             # print(words)
@@ -97,8 +90,8 @@ class Classifer(object):
         X_train = v.fit_transform(X_train)
         X_test = v.transform(X_test)
 
-        # joblib.dump(v, f'data/{self.train_dir}/DictVectorizer.joblib')
-        joblib.dump(v, f'data/{self.train_dir}/TfidfVectorizer.joblib')
+        # joblib.dump(v, f'disk/{self.train_dir}/DictVectorizer.joblib')
+        joblib.dump(v, f'disk/{self.train_dir}/TfidfVectorizer.joblib')
         print("Building word embedding finished!")
         print(X_train[0].shape, X_train[1].shape)
         print(X_train.shape, X_test.shape)
@@ -142,7 +135,7 @@ class Classifer(object):
                 clf = classifiers[classifier](X_train, y_train)
             # print("fitting finished! Lets evaluate!")
             self.evaluate(clf, X_train, y_train, X_test, y_test)
-            joblib.dump(clf, f'data/{self.train_dir}/{classifier}.joblib')
+            joblib.dump(clf, f'disk/{self.train_dir}/{classifier}.joblib')
 
 
     def evaluate(self, clf, X_train, y_train, X_test, y_test):

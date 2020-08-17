@@ -3,7 +3,11 @@
 # Date: 2019-03-30 19:19:22
 
 import joblib
+from nltk import ngrams
 from sklearn.ensemble import GradientBoostingClassifier, RandomForestClassifier
+from sklearn.feature_extraction import DictVectorizer
+from sklearn.feature_extraction.text import TfidfVectorizer
+from sklearn.feature_selection import SelectFromModel
 from sklearn.grid_search import GridSearchCV
 from sklearn.linear_model import LogisticRegression
 from sklearn.metrics import classification_report
@@ -12,6 +16,9 @@ from sklearn.naive_bayes import BernoulliNB, MultinomialNB
 from sklearn.neighbors import KNeighborsClassifier
 from sklearn.svm import SVC, LinearSVC
 from sklearn.tree import DecisionTreeClassifier
+
+from imblearn.over_sampling import ADASYN, SMOTE, RandomOverSampler
+from imblearn.under_sampling import RandomUnderSampler
 
 
 # Multinomial Naive Bayes Classifier
@@ -44,7 +51,7 @@ def random_forest_classifier(train_x, train_y):
 
 # Decision Tree Classifier
 def decision_tree_classifier(train_x, train_y):
-    model = tree.DecisionTreeClassifier()
+    model = DecisionTreeClassifier()
     model.fit(train_x, train_y)
     return model
 
