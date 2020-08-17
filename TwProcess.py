@@ -6,7 +6,7 @@
 #    By: Zhenkun <zhenkun91@outlook.com>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/05/23 21:42:53 by Kay Zhou          #+#    #+#              #
-#    Updated: 2020/08/17 20:00:19 by Zhenkun          ###   ########.fr        #
+#    Updated: 2020/08/17 21:20:49 by Zhenkun          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -153,7 +153,6 @@ class CustomTweetTokenizer(TweetTokenizer):
         if self.preserve_case:
             self.keep_allupper = True
 
-
     def _lowerize(self, word):
         if EMOTICON_RE.search(word):
             return word
@@ -163,7 +162,6 @@ class CustomTweetTokenizer(TweetTokenizer):
             return word
         else:
             return normalize_lower(word)
-    
     
     def tokenize(self, text):
         """

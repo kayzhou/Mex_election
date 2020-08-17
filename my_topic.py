@@ -6,7 +6,7 @@
 #    By: Zhenkun <zhenkun91@outlook.com>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/05/14 11:08:14 by Kay Zhou          #+#    #+#              #
-#    Updated: 2020/08/17 21:20:17 by Zhenkun          ###   ########.fr        #
+#    Updated: 2020/08/17 21:21:39 by Zhenkun          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -50,8 +50,7 @@ tokenizer = CustomTweetTokenizer(preserve_case=False,
                                  reduce_len=True,
                                  strip_handles=False,
                                  normalize_usernames=False,
-                                 normalize_urls=True,
-                                 keep_allupper=False)
+                                 normalize_urls=True)
 
 stop_words = json.load(open("data/spanish-stop-words.json"))["words"]
 stop_words = [normalize_lower(w) for w in stop_words]
