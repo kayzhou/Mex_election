@@ -6,7 +6,7 @@
 #    By: Zhenkun <zhenkun91@outlook.com>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/06/07 20:40:05 by Kay Zhou          #+#    #+#              #
-#    Updated: 2020/08/17 16:44:10 by Zhenkun          ###   ########.fr        #
+#    Updated: 2020/08/17 17:13:01 by Zhenkun          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -402,3 +402,16 @@ if __name__ == "__main__":
     #         add_camp_hashtags_from_json_mex(in_file)
 
     # add_weekly_hashtags_from_file_mex("/home/alex/kayzhou/US_election/data/hashtags-MEX-20200811.txt")
+
+    from extract_train_data import normalize_lower
+    # 导出已经标注的hashtag
+    set_hts = set()
+    hashtags = get_camp_hashtags_mex()
+    with open("disk/train-08/hashtags.txt", "w") as f:
+        for ht in hashtags:
+            ht[0] = normalize_lower(ht[0])
+            if ht[0] in set_hts:
+                continue
+            set_hts.add(ht[0])
+            f.write(f"{ht[0]} {ht[2]}\n")
+    
