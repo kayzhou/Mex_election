@@ -6,7 +6,7 @@
 #    By: Zhenkun <zhenkun91@outlook.com>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/05/14 11:08:14 by Kay Zhou          #+#    #+#              #
-#    Updated: 2020/08/17 21:19:08 by Zhenkun          ###   ########.fr        #
+#    Updated: 2020/08/17 21:19:23 by Zhenkun          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -60,14 +60,12 @@ stop_words.extend([
     "twitter", "ever", "always", "another", "many", "things", "may", "big", "come", "keep",
     "5", "time", "much", "_", "cound", "-", '"'
 ])
-
 stop_words.extend([',', '.', ':', ';', '?', '(', ')', '[', ']', '&', '!', '*', '@', '#', '$', '%'])
 
 
 class KTopic(object):
     def __init__(self):
         print("LDA init.")
-
 
     def load_text(self):
         print("Loading ...")
