@@ -6,7 +6,7 @@
 #    By: Zhenkun <zhenkun91@outlook.com>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/05/14 11:08:14 by Kay Zhou          #+#    #+#              #
-#    Updated: 2020/08/17 21:21:39 by Zhenkun          ###   ########.fr        #
+#    Updated: 2020/08/18 00:51:59 by Zhenkun          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -71,29 +71,31 @@ class KTopic(object):
     def load_text(self):
         print("Loading ...")
         texts_out = []
-        out_file = open("data/LDA_corpus.txt", "w")
+        # out_file = open("data/LDA_corpus.txt", "w")
 
-        set_id = set()  # remove dups
-        months = ["202008"]
-        for month in months:
-            for in_name in Path("raw_data/" + month).rglob("*.txt"):
-                print(in_name)
-                for line in open(in_name):
-                    try:
-                        data = json.loads(line.strip())
-                    except Exception:
-                        print('json.loads Error:', line)
-                        continue
+        # set_id = set()  # remove dups
+        # months = ["202008"]
+        # for month in months:
+        #     for in_name in Path("raw_data/" + month).rglob("*.txt"):
+        #         print(in_name)
+        #         for line in open(in_name):
+        #             try:
+        #                 data = json.loads(line.strip())
+        #             except Exception:
+        #                 print('json.loads Error:', line)
+        #                 continue
                         
-                    if data["id"] in set_id:
-                        continue
-                    set_id.add(data["id"])
+        #             if data["id"] in set_id:
+        #                 continue
+        #             set_id.add(data["id"])
                     
-                    text = data["text"].replace("\n", " ").replace("\t", " ")
-                    words = tokenizer.tokenize(text)
-                    if words:
-                        texts_out.append(words)
-                        out_file.write(" ".join(words) + "\n")
+        #             text = data["text"].replace("\n", " ").replace("\t", " ")
+        #             words = tokenizer.tokenize(text)
+        #             if words:
+        #                 texts_out.append(words)
+        #                 out_file.write(" ".join(words) + "\n")
+        for line in open("data/LDA_corpus.txt"):
+            texts_out.append(line.strip().split())
 
         # Create Dictionary
         self.id2word = corpora.Dictionary(texts_out)
@@ -105,7 +107,7 @@ class KTopic(object):
         self.corpus = [self.id2word.doc2bow(text) for text in texts_out]
 
     def run(self):
-        for i in range(100):
+        for i in range(20):
             print(f"---------------------- {i} ----------------------")
             # Can take a long time to run.
             lda_model = gensim.models.ldamodel.LdaModel(corpus=self.corpus, id2word=self.id2word, num_topics=7, chunksize=1000)
