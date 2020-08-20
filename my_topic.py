@@ -6,7 +6,7 @@
 #    By: Zhenkun <zhenkun91@outlook.com>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/05/14 11:08:14 by Kay Zhou          #+#    #+#              #
-#    Updated: 2020/08/18 00:53:41 by Zhenkun          ###   ########.fr        #
+#    Updated: 2020/08/20 21:37:28 by Zhenkun          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -58,10 +58,11 @@ stop_words.extend([
     "rt", "…", "...", "URL", "http", "https", "“", "”", "‘", "’", "get", "2", "new", "one", "i'm", "make",
     "go", "good", "say", "says", "know", "day", "..", "take", "got", "1", "going", "4", "3", "two", "n",
     "like", "via", "u", "would", "still", "first", "that's", "look", "way", "last", "said", "let",
-    "twitter", "ever", "always", "another", "many", "things", "may", "big", "come", "keep",
+    "twitter", "ever", "always", "another", "many", "things", "may", "big", "come", "keep", "RT",
     "5", "time", "much", "_", "cound", "-", '"'
 ])
 stop_words.extend([',', '.', ':', ';', '?', '(', ')', '[', ']', '&', '!', '*', '@', '#', '$', '%'])
+stop_words = set(stop_words)
 
 
 class KTopic(object):
@@ -95,7 +96,8 @@ class KTopic(object):
         #                 texts_out.append(words)
         #                 out_file.write(" ".join(words) + "\n")
         for line in open("data/LDA_corpus.txt"):
-            texts_out.append(line.strip().split())
+            words = [w for w in line.strip().split() if w not in stop_words]
+            texts_out.append(words)
 
         # Create Dictionary
         self.id2word = corpora.Dictionary(texts_out)
@@ -107,7 +109,7 @@ class KTopic(object):
         self.corpus = [self.id2word.doc2bow(text) for text in texts_out]
 
     def run(self):
-        for i in range(20):
+        for i in range(10):
             print(f"---------------------- {i} ----------------------")
             # Can take a long time to run.
             lda_model = gensim.models.ldamodel.LdaModel(corpus=self.corpus, id2word=self.id2word, num_topics=7, chunksize=1000)
