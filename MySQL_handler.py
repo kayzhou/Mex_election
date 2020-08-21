@@ -6,7 +6,7 @@
 #    By: Zhenkun <zhenkun91@outlook.com>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/06/07 20:40:05 by Kay Zhou          #+#    #+#              #
-#    Updated: 2020/08/21 22:21:37 by Zhenkun          ###   ########.fr        #
+#    Updated: 2020/08/21 22:24:34 by Zhenkun          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -93,7 +93,7 @@ class Tweet(Base):
 
 class User(Base):
     __tablename__ = "user"
-    user_id = Column(INTEGER, primary_key=True)
+    user_id = Column(BIGINT, primary_key=True)
     location = Column(VARCHAR(255))
     state = Column(VARCHAR(255))
     gender = Column(VARCHAR(10))
