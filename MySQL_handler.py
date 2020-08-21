@@ -6,7 +6,7 @@
 #    By: Zhenkun <zhenkun91@outlook.com>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/06/07 20:40:05 by Kay Zhou          #+#    #+#              #
-#    Updated: 2020/08/21 21:59:50 by Zhenkun          ###   ########.fr        #
+#    Updated: 2020/08/21 22:03:05 by Zhenkun          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -32,50 +32,50 @@ Base = declarative_base()
 
 class Query(Base):
     __tablename__ = "query"
-    word = Column(VARCHAR, primary_key=True)
+    word = Column(VARCHAR(255), primary_key=True)
     start_dt = Column(DATETIME)
     update_dt = Column(DATETIME)
     since_id = Column(INTEGER)
-    category = Column(VARCHAR(256))
-    subcategory = Column(VARCHAR(256))
+    category = Column(VARCHAR(255))
+    subcategory = Column(VARCHAR(255))
 
 
 class Query_Freq(Base):
     __tablename__ = "query_freq"
-    query = Column(VARCHAR, primary_key=True)
+    query = Column(VARCHAR(255), primary_key=True)
     dt = Column(DATETIME)
     cnt = Column(INTEGER)
 
 
 class Hashtag(Base):
     __tablename__ = "hashtag"
-    query = Column(VARCHAR, primary_key=True)
+    query = Column(VARCHAR(255), primary_key=True)
     start_dt = Column(DATETIME, primary_key=True)
     end_dt = Column(DATETIME, primary_key=True)
     cnt = Column(INTEGER)
-    category = Column(VARCHAR(256))
+    category = Column(VARCHAR(255))
     label = Column(VARCHAR(10))
 
 
 class Results_Pred(Base):
     __tablename__ = "results_pred"
     dt = Column(DATETIME, primary_key=True)
-    category = Column(VARCHAR, primary_key=True)
-    location = Column(VARCHAR, primary_key=True)
-    rst = Column(VARCHAR(256))
+    category = Column(VARCHAR(255), primary_key=True)
+    location = Column(VARCHAR(255), primary_key=True)
+    rst = Column(VARCHAR(255))
 
 
 class Results_Sent(Base):
     __tablename__ = "results_sent"
     dt = Column(DATETIME, primary_key=True)
-    category = Column(VARCHAR(256), primary_key=True)
-    location = Column(VARCHAR(256), primary_key=True)
-    rst = Column(VARCHAR(256))
+    category = Column(VARCHAR(255), primary_key=True)
+    location = Column(VARCHAR(255), primary_key=True)
+    rst = Column(VARCHAR(255))
 
 
 class Topic(Base):
     __tablename__ = "topic"
-    category = Column(VARCHAR, primary_key=True)
+    category = Column(VARCHAR(255), primary_key=True)
     start_dt = Column(DATETIME, primary_key=True)
     end_dt = Column(DATETIME, primary_key=True)
     rst = Column(VARCHAR)
