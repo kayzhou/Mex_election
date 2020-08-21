@@ -6,7 +6,7 @@
 #    By: Zhenkun <zhenkun91@outlook.com>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/06/07 20:40:05 by Kay Zhou          #+#    #+#              #
-#    Updated: 2020/08/21 18:35:10 by Zhenkun          ###   ########.fr        #
+#    Updated: 2020/08/21 18:37:15 by Zhenkun          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -34,6 +34,8 @@ class Query(Base):
     start_dt = Column(DATETIME)
     update_dt = Column(DATETIME)
     since_id = Column(INTEGER)
+    category = Column(VARCHAR(256))
+    subcategory = Column(VARCHAR(256))
 
 
 class Query_Freq(Base):
@@ -108,7 +110,7 @@ def get_keywords():
 
 
 if __name__ == "__main__":
-    # init_db()
+    init_db()
     queries = get_keywords()
     sess = get_session()
     for q in queries:
