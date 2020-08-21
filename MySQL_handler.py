@@ -6,7 +6,7 @@
 #    By: Zhenkun <zhenkun91@outlook.com>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/06/07 20:40:05 by Kay Zhou          #+#    #+#              #
-#    Updated: 2020/08/21 18:37:15 by Zhenkun          ###   ########.fr        #
+#    Updated: 2020/08/21 18:37:48 by Zhenkun          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -100,7 +100,7 @@ def get_keywords():
     Returns:
         [type]: [description]
     """
-    conn = sqlite3.connect("tweets.db")
+    conn = sqlite3.connect("../tweets-collection-Mexico-election/tweets.db")
     c = conn.cursor()
     # c.execute("SELECT * from keyword where bingo=1")
     c.execute("SELECT * from keyword")
