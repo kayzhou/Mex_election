@@ -6,7 +6,7 @@
 #    By: Zhenkun <zhenkun91@outlook.com>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/06/07 20:40:05 by Kay Zhou          #+#    #+#              #
-#    Updated: 2020/08/21 18:37:48 by Zhenkun          ###   ########.fr        #
+#    Updated: 2020/08/21 18:38:54 by Zhenkun          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -116,7 +116,7 @@ if __name__ == "__main__":
     for q in queries:
         _q = Query(
             word=q[1],
-            start_dt=pendulum.Date(2020, 8, 1),
+            start_dt="2020-08-01",
             update_dt=q[2],
             since_id=q[0]
         )
