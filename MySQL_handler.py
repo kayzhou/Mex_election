@@ -6,7 +6,7 @@
 #    By: Zhenkun <zhenkun91@outlook.com>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/06/07 20:40:05 by Kay Zhou          #+#    #+#              #
-#    Updated: 2020/08/21 18:21:37 by Zhenkun          ###   ########.fr        #
+#    Updated: 2020/08/21 18:23:11 by Zhenkun          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -68,7 +68,7 @@ class Results_Sent(Base):
 
 
 class Topic(Base):
-    __tablename__ = ""
+    __tablename__ = "topic"
     category = Column(VARCHAR(256), primary_key=True)
     start_dt = Column(DATETIME, primary_key=True)
     end_dt = Column(DATETIME, primary_key=True)
