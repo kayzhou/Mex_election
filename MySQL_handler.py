@@ -6,7 +6,7 @@
 #    By: Zhenkun <zhenkun91@outlook.com>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/06/07 20:40:05 by Kay Zhou          #+#    #+#              #
-#    Updated: 2020/08/21 18:23:11 by Zhenkun          ###   ########.fr        #
+#    Updated: 2020/08/21 18:35:10 by Zhenkun          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -17,12 +17,13 @@ import pendulum
 from bs4 import BeautifulSoup
 from sqlalchemy import (Column, DateTime, Float, Integer, String, Text, and_,
                         create_engine, desc, exists, or_, text)
-from sqlalchemy.dialects.mysql import INTEGER, VARCHAR, DATETIME
+from sqlalchemy.dialects.mysql import DATETIME, INTEGER, VARCHAR
 from sqlalchemy.ext.declarative import declarative_base
-from sqlalchemy.orm import sessionmaker
+from sqlalchemy.orm import query_expression, sessionmaker
 from sqlalchemy.orm.exc import NoResultFound
+from sqlalchemy.sql import text
 from tqdm import tqdm
-
+import sqlite3
 
 Base = declarative_base()
 
@@ -75,6 +76,11 @@ class Topic(Base):
     rst = Column(VARCHAR)
 
 
+def get_engine():
+    engine = create_engine("mysql+pymysql://kcore:kcore123.@localhost:3306/mex")
+    return engine
+
+
 def get_session():
     engine = create_engine("mysql+pymysql://kcore:kcore123.@localhost:3306/mex")
     session = sessionmaker(bind=engine)()
@@ -86,5 +92,33 @@ def init_db():
     Base.metadata.create_all(engine)
 
 
+def get_keywords():
+    """from tweets.db
+
+    Returns:
+        [type]: [description]
+    """
+    conn = sqlite3.connect("tweets.db")
+    c = conn.cursor()
+    # c.execute("SELECT * from keyword where bingo=1")
+    c.execute("SELECT * from keyword")
+    d = c.fetchall()
+    conn.close()
+    return d
+
+
 if __name__ == "__main__":
-    init_db()
+    # init_db()
+    queries = get_keywords()
+    sess = get_session()
+    for q in queries:
+        _q = Query(
+            word=q[1],
+            start_dt=pendulum.Date(2020, 8, 1),
+            update_dt=q[2],
+            since_id=q[0]
+        )
+        sess.add(_q)
+        sess.commit()
+    sess.close()
+
