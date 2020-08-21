@@ -6,7 +6,7 @@
 #    By: Zhenkun <zhenkun91@outlook.com>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/06/07 20:40:05 by Kay Zhou          #+#    #+#              #
-#    Updated: 2020/08/21 18:39:44 by Zhenkun          ###   ########.fr        #
+#    Updated: 2020/08/21 18:54:50 by Zhenkun          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -94,33 +94,57 @@ def init_db():
     Base.metadata.create_all(engine)
 
 
-def get_keywords():
-    """from tweets.db
+# def get_keywords():
+#     """from tweets.db
 
-    Returns:
-        [type]: [description]
-    """
-    conn = sqlite3.connect("../tweets-collection-Mexico-election/tweets.db")
-    c = conn.cursor()
-    # c.execute("SELECT * from keyword where bingo=1")
-    c.execute("SELECT * from keyword")
-    d = c.fetchall()
-    conn.close()
-    return d
+#     Returns:
+#         [type]: [description]
+#     """
+#     conn = sqlite3.connect("../tweets-collection-Mexico-election/tweets.db")
+#     c = conn.cursor()
+#     # c.execute("SELECT * from keyword where bingo=1")
+#     c.execute("SELECT * from keyword")
+#     d = c.fetchall()
+#     conn.close()
+#     return d
+
+
+def get_query():
+    engine = get_engine()
+    with engine.connect() as con:
+        rs = con.execute('SELECT * FROM query')
+    return rs
+
+
+def insert_query(word):
+    engine = get_engine()
+    with engine.connect() as con:
+        try:
+            print(word)
+            con.execute(f"INSERT INTO query VALUES (word, start_dt, since_id) ({word}, '2020-08-01 00:00:00', 1);")
+        except:
+            print('"{}" have exists in the list.'.format(word))
+
+
+def update_query(word, since_id):
+    '''
+    update keyword
+    '''
+    # print("update")
+    update_dt = pendulum.now().to_datetime_string()
+    engine = get_engine()
+    with engine.connect() as con:
+        con.execute(f"UPDATE query SET since_id={since_id}, update_dt='{update_dt}' WHERE word='{word}';")
+        con.commit()
+
+
+def insert_all(in_name):
+    for line in open(in_name):
+        word = line.strip()
+        if word and not word.startswith("#"):
+            insert_query(word)
 
 
 if __name__ == "__main__":
     init_db()
-    queries = get_keywords()
-    sess = get_session()
-    for q in queries:
-        _q = Query(
-            word=q[1],
-            start_dt="2020-08-01",
-            update_dt=q[2],
-            since_id=q[0]
-        )
-        sess.add(_q)
-        sess.commit()
-    sess.close()
 
