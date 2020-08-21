@@ -6,7 +6,7 @@
 #    By: Zhenkun <zhenkun91@outlook.com>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/06/07 20:40:05 by Kay Zhou          #+#    #+#              #
-#    Updated: 2020/08/21 22:03:05 by Zhenkun          ###   ########.fr        #
+#    Updated: 2020/08/21 22:21:37 by Zhenkun          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -18,7 +18,7 @@ import pendulum
 from bs4 import BeautifulSoup
 from sqlalchemy import (Column, DateTime, Float, Integer, String, Text, and_,
                         create_engine, desc, exists, or_, text)
-from sqlalchemy.dialects.mysql import DATETIME, INTEGER, VARCHAR, FLOAT
+from sqlalchemy.dialects.mysql import DATETIME, INTEGER, VARCHAR, FLOAT, BIGINT
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import query_expression, sessionmaker
 from sqlalchemy.orm.exc import NoResultFound
@@ -35,7 +35,7 @@ class Query(Base):
     word = Column(VARCHAR(255), primary_key=True)
     start_dt = Column(DATETIME)
     update_dt = Column(DATETIME)
-    since_id = Column(INTEGER)
+    since_id = Column(BIGINT)
     category = Column(VARCHAR(255))
     subcategory = Column(VARCHAR(255))
 
@@ -83,9 +83,9 @@ class Topic(Base):
 
 class Tweet(Base):
     __tablename__ = "tweet"
-    tweet_id = Column(INTEGER, primary_key=True)
+    tweet_id = Column(BIGINT, primary_key=True)
     dt = Column(DATETIME, index=True)
-    user_id = Column(INTEGER)
+    user_id = Column(BIGINT)
     source = Column(VARCHAR(100))
     amlo = Column(FLOAT)
     sentiment = Column(FLOAT)
