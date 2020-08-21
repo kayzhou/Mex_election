@@ -6,10 +6,11 @@
 #    By: Zhenkun <zhenkun91@outlook.com>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/06/07 20:40:05 by Kay Zhou          #+#    #+#              #
-#    Updated: 2020/08/21 19:27:34 by Zhenkun          ###   ########.fr        #
+#    Updated: 2020/08/21 21:57:35 by Zhenkun          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
+from operator import index
 import os
 import unicodedata
 
@@ -17,11 +18,12 @@ import pendulum
 from bs4 import BeautifulSoup
 from sqlalchemy import (Column, DateTime, Float, Integer, String, Text, and_,
                         create_engine, desc, exists, or_, text)
-from sqlalchemy.dialects.mysql import DATETIME, INTEGER, VARCHAR
+from sqlalchemy.dialects.mysql import DATETIME, INTEGER, VARCHAR, FLOAT
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import query_expression, sessionmaker
 from sqlalchemy.orm.exc import NoResultFound
 from sqlalchemy.sql import text
+from sqlalchemy.sql.sqltypes import FLOAT
 from tqdm import tqdm
 import sqlite3
 
@@ -52,6 +54,7 @@ class Hashtag(Base):
     end_dt = Column(DATETIME, primary_key=True)
     cnt = Column(INTEGER)
     category = Column(VARCHAR(256))
+    label = Column(VARCHAR(10))
 
 
 class Results_Pred(Base):
@@ -77,6 +80,25 @@ class Topic(Base):
     end_dt = Column(DATETIME, primary_key=True)
     rst = Column(VARCHAR)
 
+
+class Tweet(Base):
+    __tablename__ = "tweet"
+    tweet_id = Column(INTEGER, primary_key=True)
+    dt = Column(DATETIME, index=True)
+    user_id = Column(INTEGER)
+    source = Column(VARCHAR(100))
+    amlo = Column(FLOAT)
+    sentiment = Column(FLOAT)
+
+
+class User(Base):
+    __tablename__ = "user"
+    user_id = Column(INTEGER, primary_key=True)
+    location = Column(VARCHAR(255))
+    state = Column(VARCHAR(255))
+    gender = Column(VARCHAR(10))
+    age = Column(VARCHAR(10))
+    
 
 def get_engine():
     engine = create_engine("mysql+pymysql://kcore:kcore123.@localhost:3306/mex")
