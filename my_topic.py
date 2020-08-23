@@ -6,7 +6,7 @@
 #    By: Zhenkun <zhenkun91@outlook.com>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/05/14 11:08:14 by Kay Zhou          #+#    #+#              #
-#    Updated: 2020/08/23 21:41:29 by Zhenkun          ###   ########.fr        #
+#    Updated: 2020/08/23 22:09:54 by Zhenkun          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -73,7 +73,6 @@ class Topic(object):
         print("Loading ...")
         texts_out = []
         # out_file = open("data/LDA_corpus.txt", "w")
-
         # set_id = set()  # remove dups
         # months = ["202008"]
         # for month in months:

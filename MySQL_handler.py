@@ -6,26 +6,28 @@
 #    By: Zhenkun <zhenkun91@outlook.com>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/06/07 20:40:05 by Kay Zhou          #+#    #+#              #
-#    Updated: 2020/08/21 22:24:34 by Zhenkun          ###   ########.fr        #
+#    Updated: 2020/08/24 00:00:33 by Zhenkun          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-from operator import index
 import os
 import unicodedata
+from operator import index
 
 import pendulum
 from bs4 import BeautifulSoup
 from sqlalchemy import (Column, DateTime, Float, Integer, String, Text, and_,
                         create_engine, desc, exists, or_, text)
-from sqlalchemy.dialects.mysql import DATETIME, INTEGER, VARCHAR, FLOAT, BIGINT
+from sqlalchemy.dialects.mysql import BIGINT, DATETIME, FLOAT, INTEGER, VARCHAR
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import query_expression, sessionmaker
 from sqlalchemy.orm.exc import NoResultFound
 from sqlalchemy.sql import text
 from sqlalchemy.sql.sqltypes import FLOAT
+from sqlalchemy.sql import text
 from tqdm import tqdm
-import sqlite3
+
+from read_raw_data import read_historical_tweets_freq, read_historical_tweets
 
 Base = declarative_base()
 
@@ -149,8 +151,16 @@ def insert_all(in_name):
         word = line.strip()
         if word and not word.startswith("#"):
             insert_query(word)
+            
 
+def upsert_all_query_freq(dt):
+    rsts = read_historical_tweets_freq(dt, dt.add(days=1))
+    sess = get_session()
+    for q in rsts:
+        sess.add(Query_Freq(query=q, dt=dt, cnt=rsts[q]))
+    sess.commit()
+    sess.close()
+    
 
 if __name__ == "__main__":
     init_db()
-

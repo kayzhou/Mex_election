@@ -6,7 +6,7 @@
 #    By: Zhenkun <zhenkun91@outlook.com>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/02/11 11:16:25 by Kay Zhou          #+#    #+#              #
-#    Updated: 2020/08/23 21:05:13 by Zhenkun          ###   ########.fr        #
+#    Updated: 2020/08/23 23:47:54 by Zhenkun          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -24,7 +24,8 @@ def read_historical_tweets_freq(start, end):
         "202008",
     ])
 
-    rsts = {"start": start, "end": end}
+    # rsts = {"start": start, "end": end}
+    rsts = {}
     file_names = sorted(Path("../tweets-collection-Mexico-election/data").rglob("*.txt"))
 
     for in_name in file_names:
