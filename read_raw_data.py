@@ -6,7 +6,7 @@
 #    By: Zhenkun <zhenkun91@outlook.com>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/02/11 11:16:25 by Kay Zhou          #+#    #+#              #
-#    Updated: 2020/08/23 23:47:54 by Zhenkun          ###   ########.fr        #
+#    Updated: 2020/08/24 00:07:46 by Zhenkun          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -48,11 +48,14 @@ def read_historical_tweets_freq(start, end):
                         continue
 
                     dt = pendulum.from_format(d["created_at"], 'ddd MMM DD HH:mm:ss ZZ YYYY')
-                    if dt < start:
-                        print("sum:", cnt, d["created_at"], "end!")
-                        break
-                    if dt >= end:
-                        continue
+                    # if dt < start:
+                    #     print("sum:", cnt, d["created_at"], "end!")
+                    #     break
+                    # if dt >= end:
+                    #     continue
+                    
+                    if start <= dt < end:
+                        cnt += 1
                 
                 rsts[query] = cnt
     return rsts
