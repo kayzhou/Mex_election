@@ -6,7 +6,7 @@
 #    By: Zhenkun <zhenkun91@outlook.com>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/06/07 20:40:05 by Kay Zhou          #+#    #+#              #
-#    Updated: 2020/08/24 00:15:02 by Zhenkun          ###   ########.fr        #
+#    Updated: 2020/08/24 00:35:52 by Zhenkun          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -30,6 +30,41 @@ from tqdm import tqdm
 from read_raw_data import read_historical_tweets_freq, read_historical_tweets
 
 Base = declarative_base()
+
+official_twitter_clients = set([
+    'Twitter for iPhone',
+    'Twitter for Android',
+    'Twitter Web Client',
+    'Twitter Web App',
+    'Twitter for iPad',
+    'Mobile Web (M5)',
+    'TweetDeck',
+    'Mobile Web',
+    'Mobile Web (M2)',
+    'Twitter for Windows',
+    'Twitter for Windows Phone',
+    'Twitter for BlackBerry',
+    'Twitter for Android Tablets',
+    'Twitter for Mac',
+    'Twitter for BlackBerry®',
+    'Twitter Dashboard for iPhone',
+    'Twitter for iPhone',
+    'Twitter Ads',
+    'Twitter for  Android',
+    'Twitter for Apple Watch',
+    'Twitter Business Experience',
+    'Twitter for Google TV',
+    'Chirp (Twitter Chrome extension)',
+    'Twitter for Samsung Tablets',
+    'Twitter for MediaTek Phones',
+    'Google',
+    'Facebook',
+    'Twitter for Mac',
+    'iOS',
+    'Instagram',
+    'Vine - Make a Scene',
+    'Tumblr',
+])
 
 
 class Query(Base):
@@ -162,6 +197,14 @@ def upsert_all_query_freq(dt):
     sess.close()
 
 
+def get_source_text(_source):
+    _sou = BeautifulSoup(_source, features="lxml").get_text()
+    if _sou in official_twitter_clients:
+        return None
+    else:
+        return _sou
+        
+
 def tweets_to_db(sess, start, end, clear=False):
     """
     import tweets to database with prediction
@@ -188,7 +231,6 @@ def tweets_to_db(sess, start, end, clear=False):
             _sou = get_source_text(d["source"])
         else:
             _sou = "No source"
-        # hts = get_hashtags_from_tweet(d["hashtags"])
 
         tweets_data.append(
             Tweet(tweet_id=tweet_id,
@@ -212,7 +254,6 @@ def tweets_to_db(sess, start, end, clear=False):
     if tweets_data:
         json_rst = Lebron.predict(X)
         for i in range(len(tweets_data)):
-            rst = json_rst[tweets_data[i].tweet_id]
             rst = json_rst[tweets_data[i].tweet_id]
             tweets_data[i].amlo = round(rst[1], 3)
 

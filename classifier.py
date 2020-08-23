@@ -6,7 +6,7 @@
 #    By: Zhenkun <zhenkun91@outlook.com>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/02/22 12:48:20 by Kay Zhou          #+#    #+#              #
-#    Updated: 2020/08/24 00:11:09 by Zhenkun          ###   ########.fr        #
+#    Updated: 2020/08/24 00:39:55 by Zhenkun          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -33,7 +33,7 @@ from my_weapon import *
 from TwProcess import *
 
 
-def load_models_2party(dt):
+def load_model(dt):
     print("load models ", dt)
     # 一定要区分好
     label2num = {
@@ -53,7 +53,7 @@ class Camp_Classifier(object):
         "Init Classifer."
 
     def load(self):
-        self.classified_hts, self.token, self.v, self.clf = load_models_2party("train-07")
+        self.classified_hts, self.token, self.v, self.clf = load_model("train-08")
         
     def predict(self, ds):
 
@@ -63,7 +63,8 @@ class Camp_Classifier(object):
             # init
             label_num = None
             label_bingo_times = 0
-            set_hts = set([ht["text"].lower() for ht in _hts])
+            set_hts = set([normalize_lower(ht["text"]) for ht in _hts])
+            
             if not set_hts:
                 return None
             for _label_num, _set_hts in self.classified_hts.items():
