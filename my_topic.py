@@ -6,7 +6,7 @@
 #    By: Zhenkun <zhenkun91@outlook.com>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/05/14 11:08:14 by Kay Zhou          #+#    #+#              #
-#    Updated: 2020/08/20 21:37:28 by Zhenkun          ###   ########.fr        #
+#    Updated: 2020/08/23 21:41:29 by Zhenkun          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -59,13 +59,13 @@ stop_words.extend([
     "go", "good", "say", "says", "know", "day", "..", "take", "got", "1", "going", "4", "3", "two", "n",
     "like", "via", "u", "would", "still", "first", "that's", "look", "way", "last", "said", "let",
     "twitter", "ever", "always", "another", "many", "things", "may", "big", "come", "keep", "RT",
-    "5", "time", "much", "_", "cound", "-", '"'
+    "5", "time", "much", "_", "cound", "-", '"', "|"
 ])
 stop_words.extend([',', '.', ':', ';', '?', '(', ')', '[', ']', '&', '!', '*', '@', '#', '$', '%'])
 stop_words = set(stop_words)
 
 
-class KTopic(object):
+class Topic(object):
     def __init__(self):
         print("LDA init.")
 
@@ -96,7 +96,7 @@ class KTopic(object):
         #                 texts_out.append(words)
         #                 out_file.write(" ".join(words) + "\n")
         for line in open("data/LDA_corpus.txt"):
-            words = [w for w in line.strip().split() if w not in stop_words]
+            words = [w for w in line.strip().split() if w not in stop_words and len(w) > 1]
             texts_out.append(words)
 
         # Create Dictionary
@@ -150,6 +150,6 @@ class KTopic(object):
 
 
 if __name__ == "__main__":
-    Lebron = KTopic()
+    Lebron = Topic()
     Lebron.load_text()
     Lebron.run()
