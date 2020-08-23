@@ -6,7 +6,7 @@
 #    By: Zhenkun <zhenkun91@outlook.com>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/06/07 20:40:05 by Kay Zhou          #+#    #+#              #
-#    Updated: 2020/08/24 00:00:33 by Zhenkun          ###   ########.fr        #
+#    Updated: 2020/08/24 00:15:02 by Zhenkun          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -160,6 +160,64 @@ def upsert_all_query_freq(dt):
         sess.add(Query_Freq(query=q, dt=dt, cnt=rsts[q]))
     sess.commit()
     sess.close()
+
+
+def tweets_to_db(sess, start, end, clear=False):
+    """
+    import tweets to database with prediction
+    """
+    if clear:
+        print("deleting >=", start, "<", end)
+        sess.query(Tweet).filter(Tweet.dt >= start, Tweet.dt < end).delete()
+        sess.commit()
+    
+    from classifier import Camp_Classifier
+    Lebron = Camp_Classifier()
+    Lebron.load()
+
+    X = []
+    tweets_data = []
+
+    from read_raw_data import read_historical_tweets as read_tweets
+
+    for d, dt in read_tweets(start, end):
+        # print(d)
+        tweet_id = d["id"]
+        uid = d["user"]["id"]
+        if 'source' in d:
+            _sou = get_source_text(d["source"])
+        else:
+            _sou = "No source"
+        # hts = get_hashtags_from_tweet(d["hashtags"])
+
+        tweets_data.append(
+            Tweet(tweet_id=tweet_id,
+                  user_id=uid,
+                  dt=dt,
+                  source=_sou)
+        )
+        X.append(d)
+        
+        if len(tweets_data) == 2000:
+            json_rst = Lebron.predict(X)
+            for i in range(len(tweets_data)):
+                rst = json_rst[tweets_data[i].tweet_id]
+                tweets_data[i].amlo = round(rst[1], 3)
+
+            sess.add_all(tweets_data)
+            sess.commit()
+            X = []
+            tweets_data = []
+
+    if tweets_data:
+        json_rst = Lebron.predict(X)
+        for i in range(len(tweets_data)):
+            rst = json_rst[tweets_data[i].tweet_id]
+            rst = json_rst[tweets_data[i].tweet_id]
+            tweets_data[i].amlo = round(rst[1], 3)
+
+        sess.add_all(tweets_data)
+        sess.commit()
     
 
 if __name__ == "__main__":

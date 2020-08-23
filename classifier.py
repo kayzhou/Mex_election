@@ -6,7 +6,7 @@
 #    By: Zhenkun <zhenkun91@outlook.com>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/02/22 12:48:20 by Kay Zhou          #+#    #+#              #
-#    Updated: 2020/08/23 21:09:31 by Zhenkun          ###   ########.fr        #
+#    Updated: 2020/08/24 00:11:09 by Zhenkun          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -37,8 +37,8 @@ def load_models_2party(dt):
     print("load models ", dt)
     # 一定要区分好
     label2num = {
-        "JB": 0,
-        "DT": 1
+        "anti-AMLO": 0,
+        "AMLO": 1
     }
     hts, classified_hts = read_classified_hashtags(dt, label2num=label2num)
     tokenizer = CustomTweetTokenizer(hashtags=hts)
