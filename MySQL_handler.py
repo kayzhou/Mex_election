@@ -6,7 +6,7 @@
 #    By: Zhenkun <zhenkun91@outlook.com>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/06/07 20:40:05 by Kay Zhou          #+#    #+#              #
-#    Updated: 2020/08/25 00:04:16 by Zhenkun          ###   ########.fr        #
+#    Updated: 2020/08/25 00:04:42 by Zhenkun          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -278,4 +278,5 @@ def tweets_to_db(start, end, clear=False):
     
 
 if __name__ == "__main__":
-    init_db()
+    # init_db()
+    insert_all_query_freq_temp()
