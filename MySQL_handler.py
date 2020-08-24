@@ -6,7 +6,7 @@
 #    By: Zhenkun <zhenkun91@outlook.com>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/06/07 20:40:05 by Kay Zhou          #+#    #+#              #
-#    Updated: 2020/08/24 10:35:21 by Zhenkun          ###   ########.fr        #
+#    Updated: 2020/08/24 10:37:15 by Zhenkun          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -80,7 +80,7 @@ class Query(Base):
 class Query_Freq(Base):
     __tablename__ = "query_freq"
     query = Column(VARCHAR(255), primary_key=True)
-    dt = Column(DATETIME)
+    dt = Column(DATETIME, primary_key=True)
     cnt = Column(INTEGER)
 
 
