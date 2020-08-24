@@ -6,7 +6,7 @@
 #    By: Zhenkun <zhenkun91@outlook.com>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/02/11 11:16:25 by Kay Zhou          #+#    #+#              #
-#    Updated: 2020/08/24 22:24:18 by Zhenkun          ###   ########.fr        #
+#    Updated: 2020/08/24 22:27:10 by Zhenkun          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -110,6 +110,7 @@ def read_historical_tweets_freq(start, end):
 
 
 def read_historical_tweets(start, end):
+    print(f"func read_historical_tweets from {start} to {end} ...")
     months = set([
         "202008",
     ])

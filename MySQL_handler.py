@@ -6,7 +6,7 @@
 #    By: Zhenkun <zhenkun91@outlook.com>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/06/07 20:40:05 by Kay Zhou          #+#    #+#              #
-#    Updated: 2020/08/24 22:19:52 by Zhenkun          ###   ########.fr        #
+#    Updated: 2020/08/24 22:27:16 by Zhenkun          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -230,6 +230,7 @@ def tweets_to_db(start, end, clear=False):
         # print(d)
         tweet_id = d["id"]
         uid = d["user"]["id"]
+
         if 'source' in d:
             _sou = get_source_text(d["source"])
         else:
