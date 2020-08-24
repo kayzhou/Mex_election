@@ -6,7 +6,7 @@
 #    By: Zhenkun <zhenkun91@outlook.com>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/02/11 11:16:25 by Kay Zhou          #+#    #+#              #
-#    Updated: 2020/08/24 00:07:46 by Zhenkun          ###   ########.fr        #
+#    Updated: 2020/08/24 09:43:01 by Zhenkun          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -32,6 +32,8 @@ def read_historical_tweets_freq(start, end):
         if in_name.parts[-2] in months:
             print(in_name)
             query = in_name.parts[-1][7:-4]
+            if query != "“Tren Maya”":
+                continue
             cnt = 0
             with FileReadBackwards(in_name) as f:
                 while True:

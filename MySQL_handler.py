@@ -6,7 +6,7 @@
 #    By: Zhenkun <zhenkun91@outlook.com>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/06/07 20:40:05 by Kay Zhou          #+#    #+#              #
-#    Updated: 2020/08/24 00:35:52 by Zhenkun          ###   ########.fr        #
+#    Updated: 2020/08/24 09:51:59 by Zhenkun          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -192,7 +192,7 @@ def upsert_all_query_freq(dt):
     rsts = read_historical_tweets_freq(dt, dt.add(days=1))
     sess = get_session()
     for q in rsts:
-        sess.add(Query_Freq(query=q, dt=dt, cnt=rsts[q]))
+        sess.add(Query_Freq(query=q, dt=dt.to_datetime_string(), cnt=rsts[q]))
     sess.commit()
     sess.close()
 
