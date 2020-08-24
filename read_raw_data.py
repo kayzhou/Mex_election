@@ -6,7 +6,7 @@
 #    By: Zhenkun <zhenkun91@outlook.com>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/02/11 11:16:25 by Kay Zhou          #+#    #+#              #
-#    Updated: 2020/08/25 00:08:57 by Zhenkun          ###   ########.fr        #
+#    Updated: 2020/08/25 00:09:42 by Zhenkun          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -87,7 +87,7 @@ def read_historical_tweets_freq_temp(end):
                 if dt > end:
                     break
                 
-                dt = pendulum.to_date_string()
+                dt = dt.to_date_string()
 
                 if query not in rsts:
                     rsts[query] = {}
