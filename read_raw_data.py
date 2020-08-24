@@ -6,7 +6,7 @@
 #    By: Zhenkun <zhenkun91@outlook.com>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/02/11 11:16:25 by Kay Zhou          #+#    #+#              #
-#    Updated: 2020/08/24 22:27:10 by Zhenkun          ###   ########.fr        #
+#    Updated: 2020/08/24 22:28:56 by Zhenkun          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -114,12 +114,11 @@ def read_historical_tweets(start, end):
     months = set([
         "202008",
     ])
-    
     set_tweets = set()
     file_names = sorted(Path("../tweets-collection-Mexico-election/data").rglob("*.txt"), reverse=True)
 
     for in_name in file_names:
-        if in_name.parts[1] in months:
+        if in_name.parts[-2] in months:
             print(in_name)
             # query = in_name.parts[-1][7:-4]
             cnt = 0
