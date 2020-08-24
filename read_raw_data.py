@@ -6,7 +6,7 @@
 #    By: Zhenkun <zhenkun91@outlook.com>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/02/11 11:16:25 by Kay Zhou          #+#    #+#              #
-#    Updated: 2020/08/25 00:09:42 by Zhenkun          ###   ########.fr        #
+#    Updated: 2020/08/25 00:16:17 by Zhenkun          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -85,7 +85,7 @@ def read_historical_tweets_freq_temp(end):
 
                 dt = pendulum.from_format(d["created_at"], 'ddd MMM DD HH:mm:ss ZZ YYYY')
                 if dt > end:
-                    break
+                    continue
                 
                 dt = dt.to_date_string()
 
