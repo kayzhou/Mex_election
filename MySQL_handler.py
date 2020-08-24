@@ -6,7 +6,7 @@
 #    By: Zhenkun <zhenkun91@outlook.com>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/06/07 20:40:05 by Kay Zhou          #+#    #+#              #
-#    Updated: 2020/08/24 22:32:17 by Zhenkun          ###   ########.fr        #
+#    Updated: 2020/08/25 00:04:16 by Zhenkun          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -27,7 +27,7 @@ from sqlalchemy.sql.sqltypes import FLOAT
 from sqlalchemy.sql import text
 from tqdm import tqdm
 
-from read_raw_data import read_historical_tweets_freq, read_historical_tweets
+from read_raw_data import read_historical_tweets_freq, read_historical_tweets, read_historical_tweets_freq_temp
 
 Base = declarative_base()
 
@@ -195,6 +195,17 @@ def insert_all_query_freq(dt):
     for q in rsts:
         if not sess.query(exists().where(and_(Query_Freq.query == q, Query_Freq.dt == dt_str))).scalar():
             sess.add(Query_Freq(query=q, dt=dt_str, cnt=rsts[q]))
+    sess.commit()
+    sess.close()
+
+
+def insert_all_query_freq_temp():
+    rsts = read_historical_tweets_freq_temp(pendulum.datetime(2020, 8, 20, tz="UTC"))
+    sess = get_session()
+    for q in rsts:
+        for dt in rsts[q]:
+            if not sess.query(exists().where(and_(Query_Freq.query == q, Query_Freq.dt == dt))).scalar():
+                sess.add(Query_Freq(query=q, dt=dt, cnt=rsts[q][rsts]))
     sess.commit()
     sess.close()
 
