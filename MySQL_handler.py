@@ -6,7 +6,7 @@
 #    By: Zhenkun <zhenkun91@outlook.com>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/06/07 20:40:05 by Kay Zhou          #+#    #+#              #
-#    Updated: 2020/08/25 00:04:42 by Zhenkun          ###   ########.fr        #
+#    Updated: 2020/08/25 00:08:30 by Zhenkun          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -202,10 +202,10 @@ def insert_all_query_freq(dt):
 def insert_all_query_freq_temp():
     rsts = read_historical_tweets_freq_temp(pendulum.datetime(2020, 8, 20, tz="UTC"))
     sess = get_session()
-    for q in rsts:
-        for dt in rsts[q]:
+    for q, rsts in read_historical_tweets_freq_temp(pendulum.datetime(2020, 8, 20, tz="UTC")):
+        for dt in rsts:
             if not sess.query(exists().where(and_(Query_Freq.query == q, Query_Freq.dt == dt))).scalar():
-                sess.add(Query_Freq(query=q, dt=dt, cnt=rsts[q][rsts]))
+                sess.add(Query_Freq(query=q, dt=dt, cnt=rsts[dt]))
     sess.commit()
     sess.close()
 

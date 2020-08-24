@@ -6,7 +6,7 @@
 #    By: Zhenkun <zhenkun91@outlook.com>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/02/11 11:16:25 by Kay Zhou          #+#    #+#              #
-#    Updated: 2020/08/25 00:00:32 by Zhenkun          ###   ########.fr        #
+#    Updated: 2020/08/25 00:06:54 by Zhenkun          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -99,7 +99,8 @@ def read_historical_tweets_freq_temp(end):
                 if dt not in rsts[query]:
                     rsts[query][dt] = 0
                 rsts[query][dt] += 1
-    return rsts
+
+            yield query, rsts[query] 
 
 
 def read_historical_tweets(start, end):
