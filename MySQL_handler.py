@@ -6,7 +6,7 @@
 #    By: Zhenkun <zhenkun91@outlook.com>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/06/07 20:40:05 by Kay Zhou          #+#    #+#              #
-#    Updated: 2020/08/25 00:11:59 by Zhenkun          ###   ########.fr        #
+#    Updated: 2020/08/25 00:12:47 by Zhenkun          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -204,6 +204,7 @@ def insert_all_query_freq_temp():
     sess = get_session()
     for q, rsts in read_historical_tweets_freq_temp(pendulum.datetime(2020, 8, 20, tz="UTC")):
         for dt in pendulum.period(pendulum.datetime(2020, 8, 1, tz="UTC"), pendulum.datetime(2020, 8, 19, tz="UTC")):
+            dt = dt.to_date_string()
             if dt not in rsts:
                 rsts[dt] = 0
             if not sess.query(exists().where(and_(Query_Freq.query == q, Query_Freq.dt == dt))).scalar():
