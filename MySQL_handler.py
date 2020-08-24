@@ -6,7 +6,7 @@
 #    By: Zhenkun <zhenkun91@outlook.com>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/06/07 20:40:05 by Kay Zhou          #+#    #+#              #
-#    Updated: 2020/08/24 22:27:16 by Zhenkun          ###   ########.fr        #
+#    Updated: 2020/08/24 22:32:17 by Zhenkun          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -244,11 +244,11 @@ def tweets_to_db(start, end, clear=False):
         )
         X.append(d)
         
-        if len(tweets_data) == 2000:
+        if len(tweets_data) == 5000:
             json_rst = Lebron.predict(X)
             for i in range(len(tweets_data)):
                 rst = json_rst[tweets_data[i].tweet_id]
-                tweets_data[i].amlo = round(rst[1], 3)
+                tweets_data[i].amlo = float(round(rst[1], 3))
 
             sess.add_all(tweets_data)
             sess.commit()
@@ -259,7 +259,7 @@ def tweets_to_db(start, end, clear=False):
         json_rst = Lebron.predict(X)
         for i in range(len(tweets_data)):
             rst = json_rst[tweets_data[i].tweet_id]
-            tweets_data[i].amlo = round(rst[1], 3)
+            tweets_data[i].amlo = float(round(rst[1], 3))
 
         sess.add_all(tweets_data)
         sess.commit()
