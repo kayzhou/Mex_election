@@ -6,7 +6,7 @@
 #    By: Zhenkun <zhenkun91@outlook.com>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/06/07 20:40:05 by Kay Zhou          #+#    #+#              #
-#    Updated: 2020/08/24 10:37:15 by Zhenkun          ###   ########.fr        #
+#    Updated: 2020/08/24 22:19:52 by Zhenkun          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -207,10 +207,11 @@ def get_source_text(_source):
         return _sou
         
 
-def tweets_to_db(sess, start, end, clear=False):
+def tweets_to_db(start, end, clear=False):
     """
     import tweets to database with prediction
     """
+    sess = get_session()
     if clear:
         print("deleting >=", start, "<", end)
         sess.query(Tweet).filter(Tweet.dt >= start, Tweet.dt < end).delete()
@@ -261,6 +262,7 @@ def tweets_to_db(sess, start, end, clear=False):
 
         sess.add_all(tweets_data)
         sess.commit()
+    sess.close()
     
 
 if __name__ == "__main__":

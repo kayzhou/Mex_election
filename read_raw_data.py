@@ -6,11 +6,11 @@
 #    By: Zhenkun <zhenkun91@outlook.com>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/02/11 11:16:25 by Kay Zhou          #+#    #+#              #
-#    Updated: 2020/08/24 10:38:22 by Zhenkun          ###   ########.fr        #
+#    Updated: 2020/08/24 22:19:18 by Zhenkun          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-from collections import Counter
+from collections import Counter, defaultdict
 from pathlib import Path
 
 import pendulum
@@ -50,17 +50,63 @@ def read_historical_tweets_freq(start, end):
                         continue
 
                     dt = pendulum.from_format(d["created_at"], 'ddd MMM DD HH:mm:ss ZZ YYYY')
-                    # if dt < start:
-                    #     print("sum:", cnt, d["created_at"], "end!")
-                    #     break
-                    # if dt >= end:
-                    #     continue
+                    if dt < start:
+                        print("sum:", cnt, d["created_at"], "end!")
+                        break
+                    if dt >= end:
+                        continue
                     
                     if start <= dt < end:
                         cnt += 1
                 
                 rsts[query] = cnt
     return rsts
+
+
+# def read_historical_tweets_freq_temp(start, end):
+#     months = set([
+#         "202008",
+#     ])
+
+#     # rsts = {"start": start, "end": end}
+#     list_rsts = {}
+#     file_names = sorted(Path("../tweets-collection-Mexico-election/data").rglob("*.txt"))
+
+#     for in_name in file_names:
+#         if in_name.parts[-2] in months:
+#             rsts = defaultdict(int)
+#             print(in_name)
+#             query = in_name.parts[-1][7:-4]
+#             # if query != "“Tren Maya”":
+#                 # continue
+#             with FileReadBackwards(in_name) as f:
+#                 while True:
+#                     line = f.readline()
+#                     if not line:
+#                         print(cnt, "end of the file!")
+#                         print("-" * 50)
+#                         break
+    
+#                     try:
+#                         d = json.loads(line.strip())
+#                     except Exception:
+#                         print('json.loads Error:', line)
+#                         continue
+
+#                     dt = pendulum.from_format(d["created_at"], 'ddd MMM DD HH:mm:ss ZZ YYYY')
+#                     # if dt < start:
+#                     #     print("sum:", cnt, d["created_at"], "end!")
+#                     #     break
+#                     # if dt >= end:
+#                     #     continue
+                    
+#                     if start <= dt < end:
+#                         cnt += 1
+                
+#                 rsts[query] = cnt
+
+
+#     return rsts
 
 
 def read_historical_tweets(start, end):
