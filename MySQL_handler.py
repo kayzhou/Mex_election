@@ -6,7 +6,7 @@
 #    By: Zhenkun <zhenkun91@outlook.com>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/06/07 20:40:05 by Kay Zhou          #+#    #+#              #
-#    Updated: 2020/08/24 10:01:44 by Zhenkun          ###   ########.fr        #
+#    Updated: 2020/08/24 10:20:41 by Zhenkun          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -166,7 +166,7 @@ def insert_query(word):
         try:
             print(word)
             con.execute(f"INSERT INTO query VALUES (word, start_dt, since_id) ('{word}', '2020-08-01 00:00:00', 1);")
-        except:
+        except Exception:
             print('"{}" have exists in the list.'.format(word))
 
 
@@ -191,8 +191,10 @@ def insert_all(in_name):
 def upsert_all_query_freq(dt):
     rsts = read_historical_tweets_freq(dt, dt.add(days=1))
     sess = get_session()
+    dt_str = dt.to_datetime_string()
     for q in rsts:
-        sess.add(Query_Freq(query=q, dt=dt.to_datetime_string(), cnt=rsts[q]))
+        if sess.query(exists().where(Query_Freq.query == q, Query_Freq.dt == dt_str)).scalar():
+            sess.add(Query_Freq(query=q, dt=dt_str, cnt=rsts[q]))
     sess.commit()
     sess.close()
 
