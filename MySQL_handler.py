@@ -6,7 +6,7 @@
 #    By: Zhenkun <zhenkun91@outlook.com>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/06/07 20:40:05 by Kay Zhou          #+#    #+#              #
-#    Updated: 2020/08/25 00:13:42 by Zhenkun          ###   ########.fr        #
+#    Updated: 2020/08/25 00:19:27 by Zhenkun          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -209,7 +209,7 @@ def insert_all_query_freq_temp():
                 rsts[dt] = 0
             if not sess.query(exists().where(and_(Query_Freq.query == q, Query_Freq.dt == dt))).scalar():
                 sess.add(Query_Freq(query=q, dt=dt, cnt=rsts[dt]))
-    sess.commit()
+            sess.commit()
     sess.close()
 
 
