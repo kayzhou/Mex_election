@@ -6,7 +6,7 @@
 #    By: Zhenkun <zhenkun91@outlook.com>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/02/11 11:16:25 by Kay Zhou          #+#    #+#              #
-#    Updated: 2020/08/24 22:28:56 by Zhenkun          ###   ########.fr        #
+#    Updated: 2020/08/24 22:30:30 by Zhenkun          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -148,6 +148,8 @@ def read_historical_tweets(start, end):
                     if dt >= end:
                         continue
 
+                    dt = dt.to_datetime_string()
+                    
                     if cnt % 50000 == 0:
                         print("New data ->", cnt)
                     cnt += 1
