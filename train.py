@@ -6,7 +6,7 @@
 #    By: Zhenkun <zhenkun91@outlook.com>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/07/06 14:11:24 by Kay Zhou          #+#    #+#              #
-#    Updated: 2020/08/17 21:16:48 by Zhenkun          ###   ########.fr        #
+#    Updated: 2020/08/24 22:22:31 by Zhenkun          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -42,9 +42,9 @@ class Classifer(object):
         text > tokens
         """
         tokenizer = CustomTweetTokenizer(hashtags=self.hts)
-        with open(f"disk/{self.train_dir}/tokens.txt", "w") as f:
+        with open(f"data/{self.train_dir}/tokens.txt", "w") as f:
             print("save tokens from:", f"disk/{self.train_dir}/train.txt")
-            for line in tqdm(open(f"disk/{self.train_dir}/train.txt", encoding="utf8")):
+            for line in tqdm(open(f"data/{self.train_dir}/train.txt", encoding="utf8")):
                 try:
                     camp, text = line.strip().split("\t")
                     camp = self.label2num[camp]
