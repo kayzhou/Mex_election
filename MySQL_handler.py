@@ -6,7 +6,7 @@
 #    By: Zhenkun <zhenkun91@outlook.com>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/06/07 20:40:05 by Kay Zhou          #+#    #+#              #
-#    Updated: 2020/08/24 10:29:18 by Zhenkun          ###   ########.fr        #
+#    Updated: 2020/08/24 10:35:21 by Zhenkun          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -193,7 +193,7 @@ def insert_all_query_freq(dt):
     sess = get_session()
     dt_str = dt.to_datetime_string()
     for q in rsts:
-        if not sess.query(exists().where(and_(Query_Freq.query == q, Query_Freq.dt == dt_str))).scaler():
+        if not sess.query(exists().where(and_(Query_Freq.query == q, Query_Freq.dt == dt_str))).scalar():
             sess.add(Query_Freq(query=q, dt=dt_str, cnt=rsts[q]))
     sess.commit()
     sess.close()
