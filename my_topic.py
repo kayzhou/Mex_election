@@ -6,7 +6,7 @@
 #    By: Zhenkun <zhenkun91@outlook.com>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/05/14 11:08:14 by Kay Zhou          #+#    #+#              #
-#    Updated: 2020/08/23 22:09:54 by Zhenkun          ###   ########.fr        #
+#    Updated: 2020/08/24 11:05:07 by Zhenkun          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -121,7 +121,7 @@ class Topic(object):
             coherence_lda = coherence_model_lda.get_coherence()
             print('Coherence Score: ', coherence_lda)
             
-            lda_model.save(f"disk/model/LDA-{i}.mod")
+            lda_model.save(f"data/LDA-{i}.mod")
 
     def load_model(self):
         self.lda_model = LdaModel.load("model/LDA-78.mod")
