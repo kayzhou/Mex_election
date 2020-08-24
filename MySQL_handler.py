@@ -6,7 +6,7 @@
 #    By: Zhenkun <zhenkun91@outlook.com>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/06/07 20:40:05 by Kay Zhou          #+#    #+#              #
-#    Updated: 2020/08/24 10:26:34 by Zhenkun          ###   ########.fr        #
+#    Updated: 2020/08/24 10:29:18 by Zhenkun          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -188,12 +188,12 @@ def insert_all(in_name):
             insert_query(word)
             
 
-def upsert_all_query_freq(dt):
+def insert_all_query_freq(dt):
     rsts = read_historical_tweets_freq(dt, dt.add(days=1))
     sess = get_session()
     dt_str = dt.to_datetime_string()
     for q in rsts:
-        if not sess.query(Query_Freq.query.filter(Query_Freq.query == q, Query_Freq.dt == dt_str)).scalar():
+        if not sess.query(exists().where(and_(Query_Freq.query == q, Query_Freq.dt == dt_str))).scaler():
             sess.add(Query_Freq(query=q, dt=dt_str, cnt=rsts[q]))
     sess.commit()
     sess.close()
