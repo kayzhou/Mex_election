@@ -6,7 +6,7 @@
 #    By: Zhenkun <zhenkun91@outlook.com>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/06/07 20:40:05 by Kay Zhou          #+#    #+#              #
-#    Updated: 2020/08/31 19:49:18 by Zhenkun          ###   ########.fr        #
+#    Updated: 2020/08/31 19:53:36 by Zhenkun          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -299,10 +299,12 @@ def users_to_db(end):
 
         if count >= 5000:
             sess.add_all(users_data)
+            sess.commit()
             users_data = []
             count = 0
 
     sess.add_all(users_data)
+    sess.commit()
     sess.close()
 
 

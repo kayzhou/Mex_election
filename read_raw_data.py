@@ -6,7 +6,7 @@
 #    By: Zhenkun <zhenkun91@outlook.com>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/02/11 11:16:25 by Kay Zhou          #+#    #+#              #
-#    Updated: 2020/08/31 19:43:09 by Zhenkun          ###   ########.fr        #
+#    Updated: 2020/08/31 19:53:06 by Zhenkun          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -116,16 +116,15 @@ def read_historical_users_temp(end):
                     print('json.loads Error:', line)
                     continue
 
-                dt = pendulum.from_format(d["created_at"], 'ddd MMM DD HH:mm:ss ZZ YYYY')
-                if dt > end:
-                    continue
-                
-                dt = dt.to_date_string()
                 u = d["user"]
                 if u["id"] in set_users:
                     continue
                 set_users.add(u["id"])
                 
+                dt = pendulum.from_format(d["created_at"], 'ddd MMM DD HH:mm:ss ZZ YYYY')
+                if dt > end:
+                    continue
+
                 yield u
 
 
