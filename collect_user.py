@@ -6,7 +6,7 @@
 #    By: Zhenkun <zhenkun91@outlook.com>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/06/07 20:29:42 by Kay Zhou          #+#    #+#              #
-#    Updated: 2020/08/23 21:10:17 by Zhenkun          ###   ########.fr        #
+#    Updated: 2020/08/31 19:37:46 by Zhenkun          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -192,5 +192,3 @@ if __name__ == "__main__":
             user_list_2.append(u)
 
     GetThem(user_list_2, out_name="data/us2016-location-face.lj", face_analyze=True)
-
-# Since the program stops, I restart this again. Should union 2020-04-30.lj with 2020-04-30_old.lj

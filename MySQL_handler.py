@@ -6,7 +6,7 @@
 #    By: Zhenkun <zhenkun91@outlook.com>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/06/07 20:40:05 by Kay Zhou          #+#    #+#              #
-#    Updated: 2020/08/25 00:19:27 by Zhenkun          ###   ########.fr        #
+#    Updated: 2020/08/31 19:49:18 by Zhenkun          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -280,6 +280,34 @@ def tweets_to_db(start, end, clear=False):
     sess.close()
     
 
+def users_to_db(end):
+    """
+    import tweets to database with prediction
+    """
+    sess = get_session()
+    
+    count = 0
+    users_data = []
+    from read_raw_data import read_historical_users_temp as read_users
+
+    for u in read_users(end):
+        if "location" in u:
+            users_data.append(User(user_id=u['id'], location=u["location"]))
+        else:
+            users_data.append(User(user_id=u['id']))
+        count += 1
+
+        if count >= 5000:
+            sess.add_all(users_data)
+            users_data = []
+            count = 0
+
+    sess.add_all(users_data)
+    sess.close()
+
+
 if __name__ == "__main__":
     # init_db()
-    insert_all_query_freq_temp()
+    # insert_all_query_freq_temp()
+    end = pendulum.datetime(2020, 8, 30, tz="UTC")
+    users_to_db(end)

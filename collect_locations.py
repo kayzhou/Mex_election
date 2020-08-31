@@ -6,7 +6,7 @@
 #    By: Zhenkun <zhenkun91@outlook.com>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/06/28 16:35:32 by Zhenkun           #+#    #+#              #
-#    Updated: 2020/06/28 16:35:32 by Zhenkun          ###   ########.fr        #
+#    Updated: 2020/08/31 19:37:11 by Zhenkun          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -17,10 +17,15 @@ from multiprocessing.dummy import Pool as ThreadPool
 
 
 def load_location_mapping(end_name=""):
-    loc_to_loc = json.load(open("data/loc-to-loc" + end_name + ".json"))
-    loc_to_state = json.load(open("data/loc-to-state" + end_name + ".json"))
-    loc_to_county = json.load(open("data/loc-to-county" + end_name + ".json"))
-    return loc_to_loc, loc_to_state, loc_to_county
+    loc_to_loc = None
+    loc_to_state = None
+    try:
+        loc_to_loc = json.load(open("data/loc-to-loc" + end_name + ".json"))
+        loc_to_state = json.load(open("data/loc-to-state" + end_name + ".json"))
+        # loc_to_county = json.load(open("data/loc-to-county" + end_name + ".json"))
+    except Exception as e:
+        print(e)
+    return loc_to_loc, loc_to_state
 
 
 def save_location_mapping(loc_to_loc, loc_to_state, loc_to_county, end_name=""):
@@ -96,18 +101,18 @@ def query_from_geolocator(in_name):
             states_count[state] += n
             loc_to_state[loc] = state
 
-    county_count = Counter()
-    for loc, n in all_locs.most_common():
-        if loc in loc_to_loc:
-            w = loc_to_loc[loc].split(", ")
-            if w[-1] != "United States" or len(w) < 3:
-                continue
-            # print(w)
-            county, state = w[-3], w[-2]
-            county_count[county] += n
-            loc_to_county[loc] = county + ", " + state
+    # county_count = Counter()
+    # for loc, n in all_locs.most_common():
+    #     if loc in loc_to_loc:
+    #         w = loc_to_loc[loc].split(", ")
+    #         if w[-1] != "United States" or len(w) < 3:
+    #             continue
+    #         # print(w)
+    #         county, state = w[-3], w[-2]
+    #         county_count[county] += n
+    #         loc_to_county[loc] = county + ", " + state
 
-    save_location_mapping(loc_to_loc, loc_to_state, loc_to_county, "-20200622")
+    save_location_mapping(loc_to_loc, loc_to_state, "-202008")
 
 
 if __name__ == "__main__":
