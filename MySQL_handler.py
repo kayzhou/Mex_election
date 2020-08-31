@@ -6,7 +6,7 @@
 #    By: Zhenkun <zhenkun91@outlook.com>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/06/07 20:40:05 by Kay Zhou          #+#    #+#              #
-#    Updated: 2020/08/31 19:53:46 by Zhenkun          ###   ########.fr        #
+#    Updated: 2020/08/31 20:16:50 by Zhenkun          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -131,6 +131,8 @@ class Tweet(Base):
 class User(Base):
     __tablename__ = "user"
     user_id = Column(BIGINT, primary_key=True)
+    screen_name = Column(VARCHAR(255))
+    first_dt = Column(DATETIME)
     location = Column(VARCHAR(255))
     state = Column(VARCHAR(255))
     gender = Column(VARCHAR(10))
@@ -290,11 +292,16 @@ def users_to_db(end):
     users_data = []
     from read_raw_data import read_historical_users_temp as read_users
 
-    for u in read_users(end):
+    for u, dt in read_users(end):
         if "location" in u:
-            users_data.append(User(user_id=u['id'], location=u["location"]))
+            users_data.append(User(user_id=u['id'],
+                                   screen_name=u['screen_name'],
+                                   first_dt=dt,
+                                   location=u["location"]))
         else:
-            users_data.append(User(user_id=u['id']))
+            users_data.append(User(user_id=u['id'],
+                                   screen_name=u['screen_name'],
+                                   first_dt=dt))
         count += 1
 
         if count >= 5000:
