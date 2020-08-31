@@ -27,6 +27,7 @@ from nltk.probability import ConditionalFreqDist, FreqDist
 from sklearn.feature_extraction import DictVectorizer
 from sklearn.feature_selection import SelectFromModel
 from sklearn.model_selection import train_test_split
+from sentiment_analysis_spanish import sentiment_analysis
 
 from my_weapon import *
 # from myclf import *
@@ -105,3 +106,14 @@ class Camp_Classifier(object):
             json_rst[_id] = _y
 
         return json_rst
+
+
+class Senti_Classifier(object):
+
+    def __init__(self):
+        print("Init Classifier.")
+        self.clf = sentiment_analysis.SentimentAnalysisSpanish()
+
+    def predict(self, text):
+        return self.clf.sentiment(text)
+
