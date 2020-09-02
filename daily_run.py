@@ -6,7 +6,7 @@
 #    By: Zhenkun <zhenkun91@outlook.com>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/08/23 23:43:19 by Zhenkun           #+#    #+#              #
-#    Updated: 2020/09/02 18:52:41 by Zhenkun          ###   ########.fr        #
+#    Updated: 2020/09/02 18:58:20 by Zhenkun          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -23,7 +23,7 @@ if __name__ == "__main__":
     #     start = end.add(days=-1) # include this date
         
     start = pendulum.datetime(2020, 8, 20, tz="UTC")
-    end = pendulum.datetime(2020, 8, 30, tz="UTC")
+    end = pendulum.datetime(2020, 9, 2, tz="UTC")
 
     # for dt in pendulum.Period(start, end):
     #     print(dt)
