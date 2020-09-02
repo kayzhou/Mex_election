@@ -6,7 +6,7 @@
 #    By: Zhenkun <zhenkun91@outlook.com>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/02/11 11:16:25 by Kay Zhou          #+#    #+#              #
-#    Updated: 2020/08/31 21:25:58 by Zhenkun          ###   ########.fr        #
+#    Updated: 2020/08/31 21:39:11 by Zhenkun          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -23,7 +23,6 @@ def read_historical_tweets_freq(start, end):
     months = set([
         "202008",
     ])
-
     # rsts = {"start": start, "end": end}
     rsts = {}
     file_names = sorted(Path("../tweets-collection-Mexico-election/data").rglob("*.txt"))
@@ -97,6 +96,40 @@ def read_historical_tweets_freq_temp(end):
 
             yield query, rsts[query] 
 
+
+def read_historical_users(start, end):
+    months = set([
+        "202008",
+    ])
+
+    file_names = sorted(Path("../tweets-collection-Mexico-election/data").rglob("*.txt"))
+    set_users = set()
+    
+    for in_name in file_names:
+        if in_name.parts[-2] in months:
+            print(in_name)
+            for line in tqdm(open(in_name)):
+                try:
+                    d = json.loads(line.strip())
+                except Exception:
+                    print('json.loads Error:', line)
+                    continue
+
+                u = d["user"]
+                if u["id"] in set_users:
+                    continue
+                set_users.add(u["id"])
+                
+                dt = pendulum.from_format(d["created_at"], 'ddd MMM DD HH:mm:ss ZZ YYYY')
+                if dt > end:
+                    continue
+                if dt < start:
+                    break
+                
+                dt = dt.to_date_string()
+
+                yield u, dt
+                
 
 def read_historical_users_temp(end):
     months = set([

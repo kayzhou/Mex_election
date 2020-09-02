@@ -6,7 +6,7 @@
 #    By: Zhenkun <zhenkun91@outlook.com>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/06/07 20:40:05 by Kay Zhou          #+#    #+#              #
-#    Updated: 2020/08/31 20:16:50 by Zhenkun          ###   ########.fr        #
+#    Updated: 2020/09/02 17:48:35 by Zhenkun          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -233,9 +233,9 @@ def tweets_to_db(start, end, clear=False):
         sess.query(Tweet).filter(Tweet.dt >= start, Tweet.dt < end).delete()
         sess.commit()
     
-    from classifier import Camp_Classifier
+    from classifier import Camp_Classifier, Senti_Classifier
     Lebron = Camp_Classifier()
-    Lebron.load()
+    Curry = Senti_Classifier()
 
     X = []
     tweets_data = []
@@ -265,6 +265,7 @@ def tweets_to_db(start, end, clear=False):
             for i in range(len(tweets_data)):
                 rst = json_rst[tweets_data[i].tweet_id]
                 tweets_data[i].amlo = float(round(rst[1], 3))
+                tweets_data[i].sentiment = Curry.predict(X["text"])
 
             sess.add_all(tweets_data)
             sess.commit()
@@ -276,13 +277,14 @@ def tweets_to_db(start, end, clear=False):
         for i in range(len(tweets_data)):
             rst = json_rst[tweets_data[i].tweet_id]
             tweets_data[i].amlo = float(round(rst[1], 3))
-
+            tweets_data[i].sentiment = Curry.predict(X["text"])
+        
         sess.add_all(tweets_data)
         sess.commit()
     sess.close()
     
 
-def users_to_db(end):
+def users_to_db(start, end):
     """
     import tweets to database with prediction
     """
@@ -290,9 +292,9 @@ def users_to_db(end):
     
     count = 0
     users_data = []
-    from read_raw_data import read_historical_users_temp as read_users
+    from read_raw_data import read_historical_users as read_users
 
-    for u, dt in read_users(end):
+    for u, dt in read_users(start, end):
         if "location" in u:
             users_data.append(User(user_id=u['id'],
                                    screen_name=u['screen_name'],

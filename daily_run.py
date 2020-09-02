@@ -6,7 +6,7 @@
 #    By: Zhenkun <zhenkun91@outlook.com>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/08/23 23:43:19 by Zhenkun           #+#    #+#              #
-#    Updated: 2020/08/31 21:26:05 by Zhenkun          ###   ########.fr        #
+#    Updated: 2020/09/02 17:49:26 by Zhenkun          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -19,8 +19,9 @@ if __name__ == "__main__":
     start = pendulum.datetime(2020, 8, 20, tz="UTC")
     end = pendulum.datetime(2020, 8, 30, tz="UTC")
 
-    for dt in pendulum.Period(start, end):
-        print(dt)
-        insert_all_query_freq(dt)
+    # for dt in pendulum.Period(start, end):
+    #     print(dt)
+    #     insert_all_query_freq(dt)
     
-    # tweets_to_db(dt, dt.add(days=1))
+    tweets_to_db(start, end)
+    # users_to_db(start, end)

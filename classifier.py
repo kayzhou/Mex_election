@@ -6,7 +6,7 @@
 #    By: Zhenkun <zhenkun91@outlook.com>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/02/22 12:48:20 by Kay Zhou          #+#    #+#              #
-#    Updated: 2020/08/24 00:39:55 by Zhenkun          ###   ########.fr        #
+#    Updated: 2020/09/02 17:48:41 by Zhenkun          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -52,8 +52,9 @@ class Camp_Classifier(object):
 
     def __init__(self):
         "Init Classifer."
+        self.classified_hts, self.token, self.v, self.clf = load_model("train-08")
 
-    def load(self):
+    def load(self, in_name):
         self.classified_hts, self.token, self.v, self.clf = load_model("train-08")
         
     def predict(self, ds):
@@ -114,6 +115,7 @@ class Senti_Classifier(object):
         print("Init Classifier.")
         self.clf = sentiment_analysis.SentimentAnalysisSpanish()
 
-    def predict(self, text):
+    def predict(self, X):
         return self.clf.sentiment(text)
+        # return [self.clf.sentiment(text) for text in X]
 
