@@ -6,7 +6,7 @@
 #    By: Zhenkun <zhenkun91@outlook.com>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/06/07 20:40:05 by Kay Zhou          #+#    #+#              #
-#    Updated: 2020/09/02 19:14:35 by Zhenkun          ###   ########.fr        #
+#    Updated: 2020/09/02 19:19:09 by Zhenkun          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -230,7 +230,8 @@ def tweets_to_db(start, end, clear=False):
     sess = get_session()
     if clear:
         print("deleting >=", start, "<", end)
-        sess.query(Tweet).filter(Tweet.dt >= start, Tweet.dt < end).delete()
+        sess.query(Tweet).filter(Tweet.dt >= start.to_datetime_string(),
+                                 Tweet.dt < end.to_datetime_string()).delete()
         sess.commit()
     
     from classifier import Camp_Classifier, Senti_Classifier
