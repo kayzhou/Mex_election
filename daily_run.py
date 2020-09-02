@@ -6,7 +6,7 @@
 #    By: Zhenkun <zhenkun91@outlook.com>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/08/23 23:43:19 by Zhenkun           #+#    #+#              #
-#    Updated: 2020/09/02 17:49:26 by Zhenkun          ###   ########.fr        #
+#    Updated: 2020/09/02 18:52:41 by Zhenkun          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -15,7 +15,13 @@ from my_weapon import *
 
 
 if __name__ == "__main__":
-    # start = pendulum.datetime(2020, 8, 1, tz="UTC")
+    # if today == -1:
+    #     end = pendulum.today(tz="UTC") # not include this date
+    #     start = pendulum.yesterday(tz="UTC") # include this date
+    # else:
+    #     end = pendulum.parse(today) # not include this date
+    #     start = end.add(days=-1) # include this date
+        
     start = pendulum.datetime(2020, 8, 20, tz="UTC")
     end = pendulum.datetime(2020, 8, 30, tz="UTC")
 
