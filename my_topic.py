@@ -6,7 +6,7 @@
 #    By: Zhenkun <zhenkun91@outlook.com>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/05/14 11:08:14 by Kay Zhou          #+#    #+#              #
-#    Updated: 2020/08/24 11:05:07 by Zhenkun          ###   ########.fr        #
+#    Updated: 2020/09/02 18:02:11 by Zhenkun          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -17,6 +17,9 @@ import string
 from collections import Counter
 from pathlib import Path
 from pprint import pprint
+import pyLDAvis
+import pyLDAvis.gensim  # don't skip this
+# import matplotlib.pyplot as plt
 
 import matplotlib
 import scipy
@@ -55,11 +58,11 @@ tokenizer = CustomTweetTokenizer(preserve_case=False,
 stop_words = json.load(open("data/spanish-stop-words.json"))["words"]
 stop_words = [normalize_lower(w) for w in stop_words]
 stop_words.extend([
-    "rt", "…", "...", "URL", "http", "https", "“", "”", "‘", "’", "get", "2", "new", "one", "i'm", "make",
-    "go", "good", "say", "says", "know", "day", "..", "take", "got", "1", "going", "4", "3", "two", "n",
-    "like", "via", "u", "would", "still", "first", "that's", "look", "way", "last", "said", "let",
+    "rt", "…", "...", "URL", "http", "https", "get", "new", "one", "i'm", "make",
+    "go", "good", "say", "says", "know", "day", "..", "take", "got", "going", "two",
+    "like", "via", "would", "still", "first", "that's", "look", "way", "last", "said", "let",
     "twitter", "ever", "always", "another", "many", "things", "may", "big", "come", "keep", "RT",
-    "5", "time", "much", "_", "cound", "-", '"', "|"
+    "time", "much", "cound", "-", '"', "|"
 ])
 stop_words.extend([',', '.', ':', ';', '?', '(', ')', '[', ']', '&', '!', '*', '@', '#', '$', '%'])
 stop_words = set(stop_words)
@@ -94,6 +97,8 @@ class Topic(object):
         #             if words:
         #                 texts_out.append(words)
         #                 out_file.write(" ".join(words) + "\n")
+
+        # read text data
         for line in open("data/LDA_corpus.txt"):
             words = [w for w in line.strip().split() if w not in stop_words and len(w) > 1]
             texts_out.append(words)
@@ -108,10 +113,10 @@ class Topic(object):
         self.corpus = [self.id2word.doc2bow(text) for text in texts_out]
 
     def run(self):
-        for i in range(10):
+        for i in range(5):
             print(f"---------------------- {i} ----------------------")
             # Can take a long time to run.
-            lda_model = gensim.models.ldamodel.LdaModel(corpus=self.corpus, id2word=self.id2word, num_topics=7, chunksize=1000)
+            lda_model = gensim.models.ldamodel.LdaModel(corpus=self.corpus, id2word=self.id2word, num_topics=5, chunksize=1000)
             print(lda_model.print_topics())
             # Compute Perplexity
             print('Perplexity: ', lda_model.log_perplexity(self.corpus))  # a measure of how good the model is. lower the better.
@@ -123,8 +128,8 @@ class Topic(object):
             
             lda_model.save(f"data/LDA-{i}.mod")
 
-    def load_model(self):
-        self.lda_model = LdaModel.load("model/LDA-78.mod")
+    def load_model(self, model_name):
+        self.lda_model = LdaModel.load("model/model_name")
 
     # def lemmatization(self, sent, allowed_postags=['NOUN', 'ADJ', 'VERB', 'ADV', 'PROPN']):
     #     """https://spacy.io/api/annotation"""
@@ -134,7 +139,6 @@ class Topic(object):
     #     doc = nlp(sent)
         
     #     _d = [token.lemma_ for token in doc if token.pos_ in allowed_postags and token.lemma_ not in stop_words and token.lemma_]
-        
     #     _d = [x.replace('itstopiczzz', '#') for x in _d]
     #     _d = [x.replace('itsmentionzzz', '@') for x in _d]
     #     return _d
@@ -142,13 +146,20 @@ class Topic(object):
     def predict(self, text):
         text = text.replace("\n", " ").replace("\t", " ")
         words = tokenizer.tokenize(text)
-        words = [w for w in words if w not in stop_words and w]
+        words = [w for w in words if w not in stop_words and len(w) > 1]
         # text = self.lemmatization(words)
         text = self.id2word.doc2bow(text)
         return self.lda_model.get_document_topics(text)
+
+
+    def generate_HTML(self, model_name, html_name):
+        self.load_model(model_name)
+        vis = pyLDAvis.gensim.prepare(self.lda_model, self.corpus, self.id2word)
+        pyLDAvis.save_html(vis, html_name)
 
 
 if __name__ == "__main__":
     Lebron = Topic()
     Lebron.load_text()
     Lebron.run()
+    # Lebron.generate_HTML()
