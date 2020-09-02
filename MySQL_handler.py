@@ -6,7 +6,7 @@
 #    By: Zhenkun <zhenkun91@outlook.com>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/06/07 20:40:05 by Kay Zhou          #+#    #+#              #
-#    Updated: 2020/09/02 19:19:09 by Zhenkun          ###   ########.fr        #
+#    Updated: 2020/09/02 19:58:04 by Zhenkun          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -318,6 +318,23 @@ def users_to_db(start, end):
     sess.commit()
     sess.close()
 
+
+def get_tweets(sess, start, end):
+    tweets = sess.query(Tweet).filter(
+        Tweet.source.is_(None),
+        Tweet.dt >= start,
+        Tweet.dt < end).yield_per(5000)
+    return tweets
+
+
+def get_tweets_proba(sess, start, end, proba=0.66):
+    tweets = sess.query(Tweet).filter(
+        Tweet.source.is_(None),
+        Tweet.dt >= start,
+        Tweet.dt < end,
+        Tweet.max_proba > proba).yield_per(5000)
+    return tweets
+    
 
 if __name__ == "__main__":
     # init_db()

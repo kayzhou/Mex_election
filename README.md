@@ -1,4 +1,5 @@
 In /home/ec2-user/zhenkun/Mex_election:
+
 #1. Handling the mySQL database to connect AWS with Dashboard. 
 MySQL_handler.py helps to import results to mysql database, including the query_freq, tweets and users.
 
@@ -16,6 +17,9 @@ classifier.py -> Senti_Classifier
 
 #5. Performing LDA analysis on posts/tweets (nation, states, candicates)
 my_topic.py and my_topic.ipynb (generate HTML code)
+
+#6. Automation
+perform daily_run.py in crontab
 
 In /home/ec2-user/zhenkun/tweets-collection-Mexico-election
 Mex Twitter collection
