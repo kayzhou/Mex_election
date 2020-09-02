@@ -6,7 +6,7 @@
 #    By: Zhenkun <zhenkun91@outlook.com>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/08/23 23:43:19 by Zhenkun           #+#    #+#              #
-#    Updated: 2020/09/02 18:58:20 by Zhenkun          ###   ########.fr        #
+#    Updated: 2020/09/02 19:17:56 by Zhenkun          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -29,5 +29,5 @@ if __name__ == "__main__":
     #     print(dt)
     #     insert_all_query_freq(dt)
     
-    tweets_to_db(start, end)
+    tweets_to_db(start, end, clear=True)
     # users_to_db(start, end)
