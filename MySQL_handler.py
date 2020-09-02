@@ -6,7 +6,7 @@
 #    By: Zhenkun <zhenkun91@outlook.com>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/06/07 20:40:05 by Kay Zhou          #+#    #+#              #
-#    Updated: 2020/09/02 18:52:54 by Zhenkun          ###   ########.fr        #
+#    Updated: 2020/09/02 18:54:57 by Zhenkun          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -265,7 +265,8 @@ def tweets_to_db(start, end, clear=False):
             for i in range(len(tweets_data)):
                 rst = json_rst[tweets_data[i].tweet_id]
                 tweets_data[i].amlo = float(round(rst[1], 3))
-                tweets_data[i].sentiment = float(Curry.predict(round(X["text"], 3)))
+                senti_score = Curry.predict(X["text"])
+                tweets_data[i].sentiment = float(round(senti_score, 3))
             sess.add_all(tweets_data)
             sess.commit()
             X = []
@@ -276,7 +277,8 @@ def tweets_to_db(start, end, clear=False):
         for i in range(len(tweets_data)):
             rst = json_rst[tweets_data[i].tweet_id]
             tweets_data[i].amlo = float(round(rst[1], 3))
-            tweets_data[i].sentiment = float(Curry.predict(round(X["text"], 3)))
+            senti_score = Curry.predict(X["text"])
+            tweets_data[i].sentiment = float(round(senti_score, 3))
         
         sess.add_all(tweets_data)
         sess.commit()
